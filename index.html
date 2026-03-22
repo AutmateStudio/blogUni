@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>АРИНА ВО ВЬЕТНАМЕ: 10/10 DA NANG EDITION</title>
+    <title>АРИНА В ДАНАНГЕ: 10/10 ULTIMATE EDITION</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
         body { margin: 0; overflow: hidden; background: #050505; font-family: 'Press Start 2P', cursive; color: #fff; user-select: none; }
@@ -65,13 +65,11 @@
     const ctx = canvas.getContext("2d");
     
     // ==========================================
-    // СЮДА ВСТАВЛЯТЬ ССЫЛКИ НА КАРТИНКИ (PNG без фона)
+    // ССЫЛКА НА ФОТО АРИНЫ
     // ==========================================
     const imgArina = new Image();
     imgArina.crossOrigin = "Anonymous";
-    // ЗАМЕНИ ЭТУ ССЫЛКУ НА ФОТО АРИНЫ (вырезанное на remove.bg и загруженное на imgbb)
-    // Если оставишь пустой (''), игра нарисует геометрическую модельку
-    imgArina.src = ''; 
+    imgArina.src = 'https://i.ibb.co/LXXfpvVd/photo-2026-03-22-19-42-32-removebg-preview.png'; 
 
     // Core variables
     let frames = 0, score = 0, phoCount = 0, gameSpeed = 7.5, isPlaying = false;
@@ -115,7 +113,7 @@
 
     // --- Player (Arina) ---
     const player = {
-        x: 120, y: groundY, w: 50, h: 90,
+        x: 120, y: groundY, w: 60, h: 140, // Настроил размеры для пропорций фото
         dy: 0, gravity: 0.85, jumpPower: -14, jumps: 0, maxJumps: 2,
         
         draw(ctxRef = ctx, isTrail = false) {
@@ -127,50 +125,19 @@
                 ctxRef.globalCompositeOperation = "screen";
             }
 
-            // Наклон при прыжке/беге
-            if (this.y < groundY) ctxRef.rotate(-0.1);
-            else ctxRef.rotate(Math.sin(frames * 0.4) * 0.05);
+            // Легкий наклон при прыжке/беге
+            if (this.y < groundY) ctxRef.rotate(-0.05);
+            else ctxRef.rotate(Math.sin(frames * 0.4) * 0.03);
             
-            // ЕСЛИ ЕСТЬ КАРТИНКА - рисуем её
+            // Рисуем загруженную фотографию Арины
             if (imgArina.complete && imgArina.naturalWidth !== 0) {
-                ctxRef.drawImage(imgArina, 0, -this.h, this.w + 20, this.h + 10);
+                // Сдвигаем картинку, чтобы ноги касались земли (groundY)
+                ctxRef.drawImage(imgArina, -10, -this.h, this.w + 20, this.h);
             } 
-            // ИНАЧЕ - рисуем сложную геометрию
             else {
-                const skinColor = "#fcd5ce";
-                ctxRef.fillStyle = "#f8e192";
-                ctxRef.beginPath(); ctxRef.arc(0, -75, 14, 0, Math.PI*2); ctxRef.fill();
-                let tailSway = this.y < groundY ? -20 : Math.sin(frames * 0.5) * 5;
-                ctxRef.beginPath(); ctxRef.ellipse(-10, -65 + tailSway, 8, 20, Math.PI/4, 0, Math.PI*2); ctxRef.fill();
-
-                ctxRef.fillStyle = "#1a1a1a"; 
-                let stride = this.y === groundY ? Math.sin(frames * 0.4) * 20 : 10;
-                ctxRef.beginPath(); ctxRef.roundRect(10 + stride, -25, 12, 25, 4); ctxRef.fill();
-                ctxRef.fillStyle = "#222"; 
-                ctxRef.beginPath(); ctxRef.roundRect(10 - stride, -25, 12, 25, 4); ctxRef.fill();
-
-                ctxRef.fillStyle = skinColor;
-                ctxRef.beginPath(); ctxRef.roundRect(8, -55, 22, 35, 8); ctxRef.fill();
-
-                ctxRef.fillStyle = "#a8caba"; // Голубой топ
-                ctxRef.beginPath(); ctxRef.moveTo(8, -45); ctxRef.lineTo(30, -55); ctxRef.lineTo(30, -25); ctxRef.lineTo(8, -25); ctxRef.fill();
-                ctxRef.strokeStyle = "#a8caba"; ctxRef.lineWidth = 2.5;
-                ctxRef.beginPath(); ctxRef.moveTo(10, -45); ctxRef.lineTo(10, -60); ctxRef.stroke();
-
-                ctxRef.fillStyle = skinColor; ctxRef.save(); ctxRef.translate(15, -50);
-                ctxRef.rotate(this.y === groundY ? Math.sin(frames * 0.4) * 0.8 : -0.5);
-                ctxRef.beginPath(); ctxRef.roundRect(-4, 0, 8, 28, 4); ctxRef.fill();
-                ctxRef.strokeStyle = "rgba(0,0,0,0.4)"; ctxRef.lineWidth = 1;
-                ctxRef.beginPath(); ctxRef.moveTo(-2, 10); ctxRef.lineTo(2, 12); ctxRef.lineTo(-1, 15); ctxRef.stroke();
-                ctxRef.restore();
-
-                ctxRef.fillStyle = skinColor;
-                ctxRef.beginPath(); ctxRef.arc(20, -70, 16, 0, Math.PI*2); ctxRef.fill();
-                ctxRef.fillStyle = "#f8e192";
-                ctxRef.beginPath(); ctxRef.arc(20, -72, 17, Math.PI*0.9, Math.PI*2.2); ctxRef.fill();
-                ctxRef.fillStyle = "#4a90e2"; 
-                ctxRef.beginPath(); ctxRef.arc(25, -72, 2.5, 0, Math.PI*2); ctxRef.fill();
-                ctxRef.beginPath(); ctxRef.arc(33, -72, 2.5, 0, Math.PI*2); ctxRef.fill();
+                // Заглушка, если картинка не загрузилась
+                ctxRef.fillStyle = "#ff0055";
+                ctxRef.fillRect(0, -this.h, this.w, this.h);
             }
 
             ctxRef.restore();
@@ -224,7 +191,7 @@
             if (this.type === 'roach') this.y += Math.sin(this.x * 0.05) * 4;
             if (this.x + this.w < -50) this.markedForDeletion = true;
             
-            let hitboxOffset = 10;
+            let hitboxOffset = 15; // Прощаем небольшие касания
             if (player.x + hitboxOffset < this.x + this.w && player.x + player.w - hitboxOffset > this.x &&
                 player.y - player.h + hitboxOffset < this.y && player.y > this.y - this.h + hitboxOffset) {
                 
