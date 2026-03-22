@@ -3,108 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Оплата заказа — BLOG UNIVERSITY</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Приключения Арины во Вьетнаме</title>
     <style>
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            background-color: #A5C7D9; /* Голубой фон как на сайте */
-            background-image: linear-gradient(135deg, #fce7f3 0%, #A5C7D9 100%);
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #87CEEB; /* Тропическое небо */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .serif { font-family: 'Playfair Display', serif; }
-        .pink-bg { background-color: #E51C7E; }
-        .pink-text { color: #E51C7E; }
-        .paper-card {
-            background: white;
-            box-shadow: 10px 10px 0px rgba(229, 28, 126, 0.2);
-            border: 2px solid #E51C7E;
+        h1 {
+            color: #333;
+            margin-top: 20px;
         }
-        .btn-shadow {
-            box-shadow: 4px 4px 0px #000;
-            transition: all 0.2s;
+        canvas {
+            background-color: #e0f7fa;
+            border: 4px solid #4CAF50;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-        .btn-shadow:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0px #000;
+        #instructions {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #555;
         }
     </style>
 </head>
-<body class="min-h-screen py-10 px-4">
+<body>
 
-    <div class="max-w-2xl mx-auto">
-        <div class="text-center mb-10">
-            <h1 class="serif text-5xl md:text-7xl pink-text uppercase tracking-tighter italic">
-                Blog University<span class="text-3xl">*</span>
-            </h1>
-            <p class="uppercase tracking-widest text-[10px] mt-2 font-bold text-white bg-[#E51C7E] inline-block px-4 py-1">
-                твой путь в мир инфлюенса
-            </p>
-        </div>
+    <h1>Приключения Арины во Вьетнаме 🌴</h1>
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
+    <div id="instructions">Жми <b>ПРОБЕЛ</b> или кликай по экрану, чтобы прыгать!</div>
 
-        <div class="paper-card rounded-3xl p-8 md:p-12 relative overflow-hidden bg-white">
-            <div class="absolute top-4 right-4 text-4xl pink-text">★</div>
+<script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
 
-            <div class="mb-8">
-                <h2 class="serif text-3xl pink-text mb-2">Оплата заказа #0001</h2>
-                <div class="h-1 w-20 pink-bg mb-6"></div>
-            </div>
+    // Переменные игры
+    let frames = 0;
+    let score = 0;
+    let gameSpeed = 5;
+    let gameOver = false;
+
+    // Земля
+    const groundHeight = 50;
+    const groundY = canvas.height - groundHeight;
+
+    // Арина (Игрок)
+    const arina = {
+        x: 100,
+        y: groundY - 60,
+        width: 40,
+        height: 60,
+        dy: 0,
+        jumpForce: 14,
+        gravity: 0.6,
+        grounded: false,
+
+        jump() {
+            if (this.grounded) {
+                this.dy = -this.jumpForce;
+                this.grounded = false;
+            }
+        },
+
+        update() {
+            this.y += this.dy;
+            if (this.y + this.height < groundY) {
+                this.dy += this.gravity;
+                this.grounded = false;
+            } else {
+                this.dy = 0;
+                this.grounded = true;
+                this.y = groundY - this.height;
+            }
+        },
+
+        draw() {
+            // Тело (платье)
+            ctx.fillStyle = "#FF69B4"; 
+            ctx.fillRect(this.x, this.y + 20, this.width, this.height - 20);
             
-            <div class="space-y-6 mb-10">
-                <h3 class="text-xl font-bold uppercase tracking-tight italic text-gray-800">Тариф: Профессиональный</h3>
-                <ul class="space-y-3">
-                    <li class="flex items-center text-sm font-semibold text-gray-600">
-                        <span class="w-6 h-6 pink-bg text-white rounded-full flex items-center justify-center mr-3 text-[10px]">✔</span>
-                        100 ПОДРОБНЫХ УРОКОВ
-                    </li>
-                    <li class="flex items-center text-sm font-semibold text-gray-600">
-                        <span class="w-6 h-6 pink-bg text-white rounded-full flex items-center justify-center mr-3 text-[10px]">✔</span>
-                        ЧАТ С КУРАТОРОМ
-                    </li>
-                    <li class="flex items-center text-sm font-semibold text-gray-600">
-                        <span class="w-6 h-6 pink-bg text-white rounded-full flex items-center justify-center mr-3 text-[10px]">✔</span>
-                        ОБРАТНАЯ СВЯЗЬ ОТ МЕНТОРА
-                    </li>
-                </ul>
-            </div>
+            // Голова
+            ctx.fillStyle = "#FFC0CB"; 
+            ctx.fillRect(this.x + 5, this.y, 30, 25);
+            
+            // Белые волосы
+            ctx.fillStyle = "#FFFFFF"; 
+            ctx.fillRect(this.x, this.y - 5, 40, 15);
+            ctx.fillRect(this.x, this.y, 10, 30); // прядь
 
-            <div class="bg-pink-50 rounded-2xl p-6 border-2 border-dashed border-pink-200 mb-10">
-                <span class="text-xs font-bold pink-text uppercase">Сумма к оплате:</span>
-                <div class="text-5xl font-black pink-text tracking-tighter">89 990 ₽</div>
-            </div>
+            // Голубые глаза
+            ctx.fillStyle = "#00BFFF"; 
+            ctx.fillRect(this.x + 18, this.y + 8, 5, 5);
+            ctx.fillRect(this.x + 28, this.y + 8, 5, 5);
+        }
+    };
 
-            <div class="grid grid-cols-1 gap-4">
-                <a href="#" class="btn-shadow pink-bg text-white text-center py-4 rounded-xl font-bold uppercase tracking-widest hover:opacity-90 transition">
-                    Оплатить картой РФ
-                </a>
-                
-                <div class="grid grid-cols-2 gap-4">
-                    <a href="#" class="btn-shadow bg-yellow-400 text-black text-center py-4 rounded-xl font-bold text-xs uppercase transition">
-                        Tinkoff Pay
-                    </a>
-                    <a href="#" class="btn-shadow bg-black text-white text-center py-4 rounded-xl font-bold text-xs uppercase transition">
-                        Yandex Pay
-                    </a>
-                </div>
+    // Враги
+    const obstacles = [];
+    const obstacleTypes = ['rat', 'roach', 'bug'];
 
-                <a href="#" class="btn-shadow bg-white border-2 border-gray-900 text-black text-center py-4 rounded-xl font-bold uppercase tracking-widest text-xs transition">
-                    Карта другого государства
-                </a>
-            </div>
+    function spawnObstacle() {
+        let type = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
+        let obstacle = {
+            x: canvas.width,
+            type: type,
+            markedForDeletion: false
+        };
 
-            <p class="text-[10px] text-center text-gray-400 mt-8 uppercase font-bold tracking-tighter">
-                нажимая кнопку, ты принимаешь условия оферты
-            </p>
-        </div>
+        if (type === 'rat') {
+            obstacle.width = 50;
+            obstacle.height = 25;
+            obstacle.y = groundY - obstacle.height;
+            obstacle.speed = gameSpeed + 1;
+            obstacle.color = '#7f8c8d'; // Серая крыса
+        } else if (type === 'roach') {
+            obstacle.width = 40;
+            obstacle.height = 15;
+            obstacle.y = groundY - obstacle.height;
+            obstacle.speed = gameSpeed + 2; // Тараканы быстрые
+            obstacle.color = '#8B4513'; // Коричневый таракан
+        } else if (type === 'bug') {
+            obstacle.width = 30;
+            obstacle.height = 30;
+            obstacle.y = groundY - 80 - Math.random() * 50; // Летают высоко
+            obstacle.speed = gameSpeed + 1.5;
+            obstacle.color = '#27ae60'; // Зеленый жук
+            obstacle.angle = 0; // Для волнообразного движения
+        }
 
-        <div class="mt-10 text-center">
-            <div class="flex justify-center space-x-4">
-                <span class="text-4xl">💖</span>
-                <span class="text-4xl">📸</span>
-                <span class="text-4xl">✨</span>
-            </div>
-        </div>
-    </div>
+        obstacles.push(obstacle);
+    }
 
+    function handleObstacles() {
+        if (frames % 100 === 0) {
+            spawnObstacle();
+        }
+
+        for (let i = 0; i < obstacles.length; i++) {
+            let obs = obstacles[i];
+            
+            // Движение
+            obs.x -= obs.speed;
+            if (obs.type === 'bug') {
+                obs.y += Math.sin(obs.angle) * 2;
+                obs.angle += 0.1;
+            }
+
+            // Отрисовка
+            ctx.fillStyle = obs.color;
+            if (obs.type === 'bug') {
+                ctx.beginPath();
+                ctx.arc(obs.x + obs.width/2, obs.y + obs.height/2, obs.width/2, 0, Math.PI * 2);
+                ctx.fill();
+                // Крылышки
+                ctx.fillStyle = "rgba(255,255,255,0.7)";
+                ctx.fillRect(obs.x + 5, obs.y - 10, 10, 15);
+            } else {
+                ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+                // Хвост крысе или усы таракану
+                ctx.fillStyle = "#000";
+                if (obs.type === 'rat') ctx.fillRect(obs.x + obs.width, obs.y + 10, 15, 3);
+                if (obs.type === 'roach') {
+                    ctx.fillRect(obs.x - 5, obs.y + 5, 5, 2);
+                    ctx.fillRect(obs.x - 5, obs.y + 10, 5, 2);
+                }
+            }
+
+            // Столкновение (Collision Detection)
+            if (arina.x < obs.x + obs.width &&
+                arina.x + arina.width > obs.x &&
+                arina.y < obs.y + obs.height &&
+                arina.y + arina.height > obs.y) {
+                gameOver = true;
+            }
+
+            // Удаление ушедших за экран
+            if (obs.x + obs.width < 0) {
+                obs.markedForDeletion = true;
+                score++;
+            }
+        }
+
+        // Очистка массива от удаленных врагов
+        while(obstacles.length > 0 && obstacles[0].markedForDeletion){
+            obstacles.shift();
+        }
+    }
+
+    // Управление
+    window.addEventListener("keydown", (e) => {
+        if (e.code === "Space" || e.code === "ArrowUp") {
+            if (gameOver) resetGame();
+            else arina.jump();
+        }
+    });
+    window.addEventListener("mousedown", () => {
+        if (gameOver) resetGame();
+        else arina.jump();
+    });
+
+    function resetGame() {
+        arina.y = groundY - arina.height;
+        arina.dy = 0;
+        obstacles.length = 0;
+        score = 0;
+        frames = 0;
+        gameSpeed = 5;
+        gameOver = false;
+        animate();
+    }
+
+    // Главный игровой цикл
+    function animate() {
+        if (gameOver) {
+            ctx.fillStyle = "rgba(0,0,0,0.5)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "white";
+            ctx.font = "40px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("ИГРА ОКОНЧЕНА", canvas.width/2, canvas.height/2);
+            ctx.font = "20px Arial";
+            ctx.fillText("Счет: " + score, canvas.width/2, canvas.height/2 + 40);
+            ctx.fillText("Нажми пробел для рестарта", canvas.width/2, canvas.height/2 + 80);
+            return;
+        }
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Рисуем землю
+        ctx.fillStyle = "#4CAF50"; // Тропическая трава
+        ctx.fillRect(0, groundY, canvas.width, groundHeight);
+
+        // Рисуем счет
+        ctx.fillStyle = "#333";
+        ctx.font = "24px Arial";
+        ctx.textAlign = "left";
+        ctx.fillText("Счет: " + score, 20, 30);
+
+        arina.update();
+        arina.draw();
+        
+        handleObstacles();
+
+        // Ускорение игры со временем
+        if (frames % 600 === 0 && gameSpeed < 12) {
+            gameSpeed += 0.5;
+        }
+
+        frames++;
+        requestAnimationFrame(animate);
+    }
+
+    // Запуск
+    animate();
+
+</script>
 </body>
 </html>
