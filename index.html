@@ -3,381 +3,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>АРИНА В ДАНАНГЕ: 10/10 ULTIMATE EDITION</title>
+    <title>ARINA: VIETNAM OVERDRIVE 12/10</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-        body { margin: 0; overflow: hidden; background: #050505; font-family: 'Press Start 2P', cursive; color: #fff; user-select: none; }
-        #game-container { position: relative; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; }
+        body { margin: 0; overflow: hidden; background: #000; font-family: 'Press Start 2P', cursive; color: #fff; user-select: none; }
+        #game-container { position: relative; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; background: #000; }
         #game-container::after {
             content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, rgba(255,255,255,0) 60%, rgba(0,0,0,0.6) 100%);
+            background: radial-gradient(circle, rgba(255,255,255,0) 40%, rgba(0,0,0,0.8) 100%);
             pointer-events: none; z-index: 20;
         }
-        canvas { 
-            border: 2px solid #333; border-radius: 8px; 
-            box-shadow: 0 0 50px rgba(0, 255, 204, 0.3); 
-            transition: filter 0.1s;
-        }
-        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 30; transition: opacity 0.4s ease; }
+        canvas { border: 2px solid #333; border-radius: 10px; box-shadow: 0 0 60px rgba(0, 255, 204, 0.4); }
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); z-index: 30; transition: opacity 0.5s; }
         .hidden { opacity: 0; pointer-events: none; display: none !important; }
-        h1 { color: #00ffcc; text-shadow: 4px 4px 0 #ff0055, 0 0 20px #00ffcc; font-size: 36px; text-align: center; line-height: 1.6; margin-bottom: 20px; animation: float 3s ease-in-out infinite; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        
-        .btn { 
-            background: transparent; border: 4px solid #00ffcc; color: #00ffcc; 
-            padding: 15px 35px; font-family: inherit; font-size: 18px; cursor: pointer; 
-            text-transform: uppercase; transition: all 0.2s; 
-            box-shadow: inset 0 0 10px rgba(0,255,204,0.2), 0 0 15px rgba(0,255,204,0.4); margin: 10px; 
-        }
-        .btn:hover { background: #00ffcc; color: #000; box-shadow: 0 0 30px #00ffcc; transform: scale(1.05); }
-        .btn:active { transform: scale(0.95); }
-        
-        #hud { position: absolute; top: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 50px; z-index: 15; font-size: 20px; text-shadow: 3px 3px 0 #000; }
-        .hud-item { color: #fff; }
-        .hud-item span { color: #ff0055; }
+        h1 { color: #00ffcc; text-shadow: 4px 4px 0 #ff0055, 0 0 20px #00ffcc; font-size: 32px; text-align: center; line-height: 1.6; }
+        .btn { background: transparent; border: 4px solid #00ffcc; color: #00ffcc; padding: 20px 40px; font-family: inherit; font-size: 18px; cursor: pointer; text-transform: uppercase; margin: 10px; transition: 0.2s; box-shadow: 0 0 15px rgba(0,255,204,0.3); }
+        .btn:hover { background: #00ffcc; color: #000; box-shadow: 0 0 40px #00ffcc; transform: scale(1.05); }
+        #hud { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 40px; z-index: 25; font-size: 16px; text-shadow: 2px 2px 0 #000; }
+        .hint { color: #666; font-size: 10px; margin-top: 20px; text-align: center; line-height: 2; }
     </style>
 </head>
 <body>
     <div id="game-container">
         <div id="hud" class="hidden">
-            <div class="hud-item">СЧЕТ: <span id="score" style="color:#00ffcc">0</span></div>
-            <div class="hud-item">ФО-БО: <span id="pho">0</span></div>
+            <div>SCORE: <span id="score" style="color:#00ffcc">0</span></div>
+            <div>COMBO: <span id="combo" style="color:#ff0055">x1</span></div>
         </div>
         <canvas id="gameCanvas" width="1000" height="500"></canvas>
         
         <div id="menu" class="overlay">
-            <h1>АРИНА В ДАНАНГЕ<br><span style="font-size: 18px; color: #ff0055; text-shadow: 2px 2px 0 #fff;">ULTIMATE EDITION</span></h1>
-            <p style="color: #aaa; margin: 20px 0; font-size: 12px; line-height: 1.8; text-align: center;">
-                КЛИК / ПРОБЕЛ — Прыжок<br>ДАБЛ-КЛИК — Двойной прыжок (Рывок!)<br>Уворачивайся от Ninja Lead и собирай Фо-Бо!
-            </p>
-            <button class="btn" onclick="startGame()">ПОГНАЛИ</button>
+            <h1>ARINA: DANANG DRIFT<br><span style="font-size: 14px; color: #fff;">VERSION 12/10 - HARDCORE</span></h1>
+            <button class="btn" onclick="startGame()">START MISSION</button>
+            <div class="hint">
+                [SPACE/UP] - JUMP / DOUBLE JUMP<br>
+                [DOWN/S/SHIFT] - SLIDE (UNDER WIRES)<br>
+                COLLECT PHO COINS TO CHARGE COMBO
+            </div>
         </div>
 
         <div id="gameover" class="overlay hidden">
-            <h1 style="color: #ff0055; text-shadow: 4px 4px 0 #000;">ТЕБЯ СБИЛИ!</h1>
-            <h2 style="color: white; margin-bottom: 40px; font-size: 20px;">ИТОГ: <span id="final-score" style="color: #00ffcc;">0</span></h2>
-            <button class="btn" onclick="startGame()">ЕЩЕ РАЗ</button>
+            <h1 style="color: #ff0055;">WASTED</h1>
+            <h2 style="font-size: 16px;">SCORE: <span id="final-score" style="color: #00ffcc;">0</span></h2>
+            <button class="btn" onclick="startGame()">RETRY</button>
         </div>
     </div>
 
 <script>
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
-    
-    // ==========================================
-    // ССЫЛКА НА ФОТО АРИНЫ
-    // ==========================================
+
+    // Изображение Арины (твоя ссылка)
     const imgArina = new Image();
     imgArina.crossOrigin = "Anonymous";
-    imgArina.src = 'https://i.ibb.co/LXXfpvVd/photo-2026-03-22-19-42-32-removebg-preview.png'; 
+    imgArina.src = 'https://i.ibb.co/LXXfpvVd/photo-2026-03-22-19-42-32-removebg-preview.png';
 
-    // Core variables
-    let frames = 0, score = 0, phoCount = 0, gameSpeed = 7.5, isPlaying = false;
-    let entities = [], particles = [], trails = [], buildings = [];
-    const groundY = 430;
-    
-    // Game Feel variables
-    let cameraShake = 0;
-    let hitStop = 0; 
-    let timeOfDay = 0; 
+    // Состояния и переменные
+    let frames = 0, score = 0, combo = 1, comboTimer = 0, gameSpeed = 8, isPlaying = false;
+    let entities = [], particles = [], trails = [], buildings = [], floatTexts = [];
+    const groundY = 420;
+    let cameraShake = 0, timeOfDay = 0, flashAlpha = 0;
 
-    // --- Audio System ---
+    const keys = { up: false, down: false };
+
+    // --- Audio Engine ---
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     let audioCtx;
     function initAudio() { if (!audioCtx) audioCtx = new AudioContext(); }
 
-    function playSound(type) {
+    function playSound(freq, type, duration, vol) {
         if (!audioCtx) return;
         const osc = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-        osc.connect(gainNode); gainNode.connect(audioCtx.destination);
-
-        if (type === 'jump') {
-            osc.type = 'triangle'; osc.frequency.setValueAtTime(400, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(700, audioCtx.currentTime + 0.15);
-            gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.15);
-        } else if (type === 'dash') {
-            osc.type = 'square'; osc.frequency.setValueAtTime(800, audioCtx.currentTime); osc.frequency.linearRampToValueAtTime(300, audioCtx.currentTime + 0.2);
-            gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime); gainNode.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.2);
-        } else if (type === 'coin') {
-            osc.type = 'sine'; osc.frequency.setValueAtTime(1200, audioCtx.currentTime); osc.frequency.setValueAtTime(1800, audioCtx.currentTime + 0.05);
-            gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
-        } else if (type === 'hit') {
-            osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(20, audioCtx.currentTime + 0.4);
-            gainNode.gain.setValueAtTime(0.6, audioCtx.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.4);
-        }
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        if (type === 'sawtooth') osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + duration);
+        gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + duration);
     }
 
-    // --- Player (Arina) ---
+    // --- Player Logic ---
     const player = {
-        x: 120, y: groundY, w: 60, h: 140, // Настроил размеры для пропорций фото
-        dy: 0, gravity: 0.85, jumpPower: -14, jumps: 0, maxJumps: 2,
+        x: 120, y: groundY, baseW: 80, baseH: 170,
+        w: 80, h: 170, dy: 0, gravity: 0.85, jumpPower: -15, jumps: 0,
+        isDucking: false, slideTime: 0,
         
-        draw(ctxRef = ctx, isTrail = false) {
-            ctxRef.save();
-            ctxRef.translate(this.x, this.y);
+        draw() {
+            ctx.save();
+            ctx.translate(this.x, this.y);
             
-            if (isTrail) {
-                ctxRef.globalAlpha = 0.4;
-                ctxRef.globalCompositeOperation = "screen";
-            }
+            // Визуализация приседания
+            let scaleY = this.isDucking ? 0.5 : 1.0;
+            let scaleX = this.isDucking ? 1.3 : 1.0;
+            let drawH = this.baseH * scaleY;
+            let drawW = this.baseW * scaleX;
 
-            // Легкий наклон при прыжке/беге
-            if (this.y < groundY) ctxRef.rotate(-0.05);
-            else ctxRef.rotate(Math.sin(frames * 0.4) * 0.03);
-            
-            // Рисуем загруженную фотографию Арины
+            if (this.y < groundY) ctx.rotate(-0.05);
+            else if (this.isDucking) ctx.rotate(0.1);
+            else ctx.rotate(Math.sin(frames * 0.4) * 0.03);
+
             if (imgArina.complete && imgArina.naturalWidth !== 0) {
-                // Сдвигаем картинку, чтобы ноги касались земли (groundY)
-                ctxRef.drawImage(imgArina, -10, -this.h, this.w + 20, this.h);
-            } 
-            else {
-                // Заглушка, если картинка не загрузилась
-                ctxRef.fillStyle = "#ff0055";
-                ctxRef.fillRect(0, -this.h, this.w, this.h);
+                // Отрисовка фото
+                ctx.drawImage(imgArina, -drawW/4, -drawH, drawW, drawH);
+            } else {
+                // Геометрическая моделька (на случай ошибки загрузки)
+                ctx.fillStyle = "#ff0055";
+                ctx.fillRect(0, -drawH, drawW/2, drawH);
             }
-
-            ctxRef.restore();
+            ctx.restore();
         },
         
         update() {
+            // Механика приседания/слайда
+            if (keys.down) {
+                if (!this.isDucking && this.y >= groundY) {
+                    playSound(200, 'sine', 0.2, 0.2);
+                }
+                this.isDucking = true;
+                this.h = this.baseH * 0.5;
+                if (this.y >= groundY && frames % 2 === 0) {
+                    createParticle(this.x + 10, this.y, "#ff0055", 2);
+                }
+            } else {
+                this.isDucking = false;
+                this.h = this.baseH;
+            }
+
             this.dy += this.gravity;
             this.y += this.dy;
             
             if (this.y >= groundY) {
                 this.y = groundY; this.dy = 0; this.jumps = 0;
-                if (frames % 4 === 0 && isPlaying) createParticle(this.x + 10, this.y, "#654321", 1);
+                if (frames % 5 === 0 && !this.isDucking) createParticle(this.x + 10, this.y, "#444", 1);
             }
-            if (this.jumps === 2 && frames % 2 === 0) trails.push({ x: this.x, y: this.y, life: 1 });
+
+            // Шлейф при прыжке
+            if (this.jumps > 0 && frames % 2 === 0) {
+                trails.push({ x: this.x, y: this.y, h: this.h, w: this.w, life: 1, ducking: this.isDucking });
+            }
         },
         
         jump() {
-            initAudio();
-            if (this.jumps < this.maxJumps) {
-                this.dy = this.jumpPower; this.jumps++;
-                if (this.jumps === 1) playSound('jump');
-                else {
-                    playSound('dash'); this.dy = this.jumpPower * 0.9;
-                    for(let i=0; i<8; i++) createParticle(this.x + 20, this.y - 40, "#00ffcc", 2);
+            if (this.jumps < 2 && !this.isDucking) {
+                this.dy = this.jumpPower;
+                this.jumps++;
+                playSound(400 + (this.jumps * 100), 'square', 0.1, 0.2);
+                if (this.jumps === 2) {
+                    flashAlpha = 0.3;
+                    cameraShake = 15;
+                    for(let i=0; i<10; i++) createParticle(this.x + 40, this.y - 80, "#00ffcc", 2);
                 }
             }
         }
     };
 
-    // --- Particles & Trails ---
-    function createParticle(x, y, color, type=1) {
-        particles.push({
-            x, y, color, type, vx: (Math.random() - 0.5) * 5, vy: (Math.random() - 1) * 5,
-            life: 1, size: Math.random() * 5 + 2
-        });
-    }
-
-    // --- Enemies ---
+    // --- Entities ---
     class Entity {
         constructor(type) {
-            this.type = type; this.x = canvas.width + 50; this.markedForDeletion = false;
+            this.type = type;
+            this.x = canvas.width + 100;
+            this.markedForDeletion = false;
+            this.speed = gameSpeed + (Math.random() * 3);
             
-            if (type === 'ninja_lead') { this.w = 70; this.h = 60; this.y = groundY; this.speed = gameSpeed + 3; } 
-            else if (type === 'rat') { this.w = 50; this.h = 25; this.y = groundY; this.speed = gameSpeed + 1.5; } 
-            else if (type === 'roach') { this.w = 35; this.h = 25; this.y = groundY - 60 - Math.random() * 60; this.speed = gameSpeed + 2; this.angle = frames; } 
-            else if (type === 'pho') { this.w = 30; this.h = 30; this.y = groundY - 50 - Math.random() * 90; this.speed = gameSpeed; }
+            if (type === 'rat') { this.w = 70; this.h = 40; this.y = groundY; this.color = "#333"; }
+            else if (type === 'ninja') { this.w = 90; this.h = 80; this.y = groundY; this.speed += 4; this.color = "#ff0055"; }
+            else if (type === 'wire') { this.w = 120; this.h = 25; this.y = groundY - 110; this.speed = gameSpeed; this.color = "#00ffcc"; }
+            else if (type === 'pho') { this.w = 40; this.h = 40; this.y = groundY - 70 - Math.random()*120; this.color = "#ffe600"; }
         }
         
         update() {
             this.x -= this.speed;
-            if (this.type === 'roach') this.y += Math.sin(this.x * 0.05) * 4;
-            if (this.x + this.w < -50) this.markedForDeletion = true;
+            if (this.x + this.w < -100) this.markedForDeletion = true;
+
+            // Коллизия (хитбокс уменьшен для честности)
+            let pTop = player.y - player.h;
+            let eTop = this.y - this.h;
+            let margin = 15;
             
-            let hitboxOffset = 15; // Прощаем небольшие касания
-            if (player.x + hitboxOffset < this.x + this.w && player.x + player.w - hitboxOffset > this.x &&
-                player.y - player.h + hitboxOffset < this.y && player.y > this.y - this.h + hitboxOffset) {
+            if (player.x + margin < this.x + this.w && player.x + player.w - margin > this.x &&
+                pTop + margin < this.y && player.y - margin > eTop) {
                 
                 if (this.type === 'pho') {
-                    phoCount++; score += 50; document.getElementById('pho').innerText = phoCount;
-                    playSound('coin'); for(let i=0; i<15; i++) createParticle(this.x, this.y, "#2ecc71", 1);
+                    let gain = 100 * combo;
+                    score += gain;
+                    comboTimer = 120;
+                    if (score % 1000 === 0) combo++;
+                    spawnFloatText("+" + gain, this.x, this.y - 50);
+                    playSound(800, 'sine', 0.1, 0.2);
                     this.markedForDeletion = true;
                 } else {
-                    hitStop = 15; gameOver();
+                    gameOver();
                 }
             }
         }
         
         draw() {
-            ctx.save(); ctx.translate(this.x, this.y);
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.shadowBlur = 15; ctx.shadowColor = this.color;
+            ctx.fillStyle = this.color;
             
-            if (this.type === 'ninja_lead') {
-                ctx.fillStyle = "#e67e22"; ctx.beginPath(); ctx.roundRect(0, -25, 60, 20, 5); ctx.fill();
-                ctx.fillStyle = "#222"; ctx.beginPath(); ctx.arc(15, -5, 12, 0, Math.PI*2); ctx.arc(55, -5, 12, 0, Math.PI*2); ctx.fill();
-                ctx.fillStyle = "#9b59b6"; ctx.beginPath(); ctx.moveTo(25, -25); ctx.lineTo(35, -55); ctx.lineTo(55, -50); ctx.lineTo(50, -25); ctx.fill();
-                ctx.fillStyle = "#fff"; ctx.fillRect(35, -50, 15, 10); ctx.fillStyle = "#000"; ctx.fillRect(45, -48, 5, 3);
-                if(frames % 10 < 5) { ctx.fillStyle = "rgba(255,255,255,0.5)"; ctx.beginPath(); ctx.moveTo(-10, -10); ctx.lineTo(0, -5); ctx.lineTo(-10, 0); ctx.fill(); }
-            } 
-            else if (this.type === 'rat') {
-                ctx.fillStyle = "#2c3e50"; ctx.beginPath(); ctx.ellipse(25, -12, 25, 12, 0, 0, Math.PI*2); ctx.fill();
-                ctx.fillStyle = "#e74c3c"; ctx.fillRect(10, -16, 4, 3);
-                ctx.strokeStyle = "#e84393"; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(50, -12); ctx.lineTo(70, -12 + Math.sin(frames*0.3)*8); ctx.stroke();
-            }
-            else if (this.type === 'roach') {
-                ctx.fillStyle = "#634832"; ctx.beginPath(); ctx.ellipse(17, -12, 17, 10, 0, 0, Math.PI*2); ctx.fill();
-                ctx.fillStyle = "rgba(200,255,255,0.6)"; let wingFlap = Math.sin(frames * 1.5) * 10;
-                ctx.beginPath(); ctx.ellipse(10, -20 + wingFlap, 12, 6, Math.PI/4, 0, Math.PI*2); ctx.fill();
-            }
-            else if (this.type === 'pho') {
-                ctx.fillStyle = "#ecf0f1"; ctx.beginPath(); ctx.arc(15, -10, 15, 0, Math.PI); ctx.fill();
-                ctx.strokeStyle = "#3498db"; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(0, -10); ctx.lineTo(30, -10); ctx.stroke();
-                ctx.fillStyle = "#2ecc71"; ctx.fillRect(8, -15, 14, 6);
-                ctx.strokeStyle = "#e67e22"; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(5, -5); ctx.lineTo(25, -25); ctx.moveTo(10, -5); ctx.lineTo(30, -25); ctx.stroke();
+            if (this.type === 'wire') {
+                ctx.fillRect(0, -this.h, this.w, this.h);
+                ctx.fillStyle = "#fff"; ctx.globalAlpha = 0.5;
+                ctx.fillRect(0, -this.h + 5, this.w, 2);
+            } else if (this.type === 'pho') {
+                ctx.beginPath(); ctx.arc(20, -20, 20, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = "#000"; ctx.font = "12px Arial"; ctx.fillText("🍜", 10, -12);
+            } else {
+                ctx.fillRect(0, -this.h, this.w, this.h);
+                ctx.fillStyle = "#fff"; ctx.fillRect(this.w-15, -this.h+5, 8, 8); // Глаз
             }
             ctx.restore();
         }
     }
 
-    // --- Dynamic Background (Da Nang) ---
-    function drawBackground() {
-        let r1 = Math.floor(135 - timeOfDay * 125); let g1 = Math.floor(206 - timeOfDay * 190); let b1 = Math.floor(235 - timeOfDay * 150);
-        let r2 = Math.floor(255 - timeOfDay * 230); let g2 = Math.floor(180 - timeOfDay * 150); let b2 = Math.floor(123 - timeOfDay * 100);
-        let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-        grad.addColorStop(0, `rgb(${r1},${g1},${b1})`); grad.addColorStop(1, `rgb(${r2},${g2},${b2})`);
-        ctx.fillStyle = grad; ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        ctx.fillStyle = timeOfDay < 0.5 ? "#ffd700" : "#f1c40f";
-        let celestialY = 150 + timeOfDay * 200;
-        ctx.beginPath(); ctx.arc(800, celestialY, 50, 0, Math.PI*2); ctx.fill();
-
-        ctx.fillStyle = `rgb(${40 - timeOfDay*30}, ${40 - timeOfDay*30}, ${50 - timeOfDay*30})`;
-        buildings.forEach(b => {
-            b.x -= gameSpeed * 0.2;
-            if (b.x < -100) { b.x = canvas.width + 100; b.h = 100 + Math.random() * 150; }
-            ctx.fillRect(b.x, groundY - b.h, b.w, b.h);
-            if (timeOfDay > 0.5) {
-                ctx.fillStyle = Math.random() > 0.1 ? "#f1c40f" : "#333";
-                ctx.fillRect(b.x + 10, groundY - b.h + 20, 10, 10);
-                ctx.fillStyle = `rgb(${40 - timeOfDay*30}, ${40 - timeOfDay*30}, ${50 - timeOfDay*30})`;
-            }
-        });
-
-        // Dragon Bridge (Cầu Rồng)
-        let bridgeOffset = (frames * gameSpeed * 0.4) % 600;
-        ctx.strokeStyle = "#f39c12"; ctx.lineWidth = 12; ctx.beginPath();
-        for(let i=-600; i<canvas.width+600; i+=600) {
-            let x = i - bridgeOffset; ctx.moveTo(x, groundY); ctx.quadraticCurveTo(x + 300, groundY - 200, x + 600, groundY);
-        }
-        ctx.stroke();
-        let headX = canvas.width - bridgeOffset % 600;
-        ctx.fillStyle = "#f39c12"; ctx.beginPath(); ctx.moveTo(headX, groundY-50); ctx.lineTo(headX+60, groundY-80); ctx.lineTo(headX+40, groundY-20); ctx.fill();
-        ctx.fillStyle = "red"; ctx.beginPath(); ctx.arc(headX+45, groundY-60, 4, 0, Math.PI*2); ctx.fill();
-        if (timeOfDay > 0.7 && frames % 10 < 5) {
-            ctx.fillStyle = "#e74c3c"; ctx.beginPath(); ctx.arc(headX+70, groundY-70, Math.random()*20+10, 0, Math.PI*2); ctx.fill();
-            ctx.fillStyle = "#f1c40f"; ctx.beginPath(); ctx.arc(headX+80, groundY-70, Math.random()*10+5, 0, Math.PI*2); ctx.fill();
-        }
-
-        ctx.fillStyle = `rgb(${50 - timeOfDay*40}, ${50 - timeOfDay*40}, ${50 - timeOfDay*40})`; 
-        ctx.fillRect(0, groundY, canvas.width, canvas.height - groundY);
-        ctx.fillStyle = "#00ffcc"; ctx.fillRect(0, groundY, canvas.width, 3);
+    // --- Background Systems ---
+    function initWorld() {
+        buildings = [];
+        for(let i=0; i<10; i++) buildings.push({ x: i*150, w: 80 + Math.random()*100, h: 100 + Math.random()*200 });
     }
 
-    function startGame() {
+    function drawWorld() {
+        // Sky
+        let skyGrad = ctx.createLinearGradient(0,0,0, canvas.height);
+        skyGrad.addColorStop(0, `rgb(${20 - timeOfDay*15}, ${10 - timeOfDay*10}, ${40 - timeOfDay*30})`);
+        skyGrad.addColorStop(1, "#050505");
+        ctx.fillStyle = skyGrad; ctx.fillRect(0,0, canvas.width, canvas.height);
+
+        // Золотой мост (Hands)
+        ctx.fillStyle = "#444";
+        ctx.save();
+        ctx.translate(canvas.width/2 - (frames*0.5)%2000, 300);
+        // Рисуем абстрактную руку
+        ctx.beginPath(); ctx.moveTo(0, 100); ctx.quadraticCurveTo(50, -150, 100, 100); ctx.fill();
+        ctx.fillStyle = "#f39c12"; ctx.fillRect(0, 0, 1000, 10); // Дорога моста
+        ctx.restore();
+
+        // Buildings (Parallax)
+        ctx.fillStyle = "#111";
+        buildings.forEach(b => {
+            b.x -= gameSpeed * 0.3;
+            if (b.x < -200) b.x = canvas.width + 100;
+            ctx.fillRect(b.x, groundY - b.h, b.w, b.h);
+            ctx.fillStyle = Math.random() > 0.9 ? "#00ffcc" : "#222";
+            ctx.fillRect(b.x + 10, groundY - b.h + 20, 10, 10);
+            ctx.fillStyle = "#111";
+        });
+
+        // Ground
+        ctx.fillStyle = "#0a0a0a"; ctx.fillRect(0, groundY, canvas.width, 100);
+        ctx.fillStyle = "#00ffcc"; ctx.shadowBlur = 20; ctx.shadowColor = "#00ffcc";
+        ctx.fillRect(0, groundY, canvas.width, 4);
+        ctx.shadowBlur = 0;
+    }
+
+    // --- Helpers ---
+    function createParticle(x, y, color, type) {
+        particles.push({ x, y, color, type, vx: (Math.random()-0.5)*8, vy: (Math.random()-1)*8, life: 1, s: Math.random()*5+2 });
+    }
+
+    function spawnFloatText(t, x, y) {
+        floatTexts.push({ t, x, y, life: 1 });
+    }
+
+    // --- Input ---
+    window.addEventListener('keydown', e => {
         initAudio();
+        if (e.code === 'ArrowUp' || e.code === 'Space') { e.preventDefault(); player.jump(); }
+        if (e.code === 'ArrowDown' || e.code === 'KeyS' || e.code === 'ShiftLeft') { keys.down = true; }
+    });
+    window.addEventListener('keyup', e => {
+        if (e.code === 'ArrowDown' || e.code === 'KeyS' || e.code === 'ShiftLeft') { keys.down = false; }
+    });
+
+    // --- Game States ---
+    function startGame() {
         document.getElementById('menu').classList.add('hidden');
         document.getElementById('gameover').classList.add('hidden');
         document.getElementById('hud').classList.remove('hidden');
-        canvas.style.filter = "none";
-        
-        entities = []; particles = []; trails = []; buildings = [];
-        for(let i=0; i<15; i++) buildings.push({ x: i * 80, w: 60, h: 100 + Math.random()*150 });
-        
-        score = 0; phoCount = 0; frames = 0; gameSpeed = 8; timeOfDay = 0;
-        player.y = groundY; player.dy = 0; player.jumps = 0;
-        isPlaying = true; hitStop = 0;
-        
-        document.getElementById('score').innerText = score;
-        document.getElementById('pho').innerText = phoCount;
-        
-        if (!window.loopRunning) loop(); 
-    }
-
-    function gameOver() {
-        isPlaying = false; playSound('hit'); cameraShake = 30; 
-        canvas.style.filter = "grayscale(100%) contrast(150%)"; 
-        
-        setTimeout(() => {
-            document.getElementById('hud').classList.add('hidden');
-            document.getElementById('gameover').classList.remove('hidden');
-            document.getElementById('final-score').innerText = score + (phoCount * 100);
-        }, 1200); 
-    }
-
-    function handleInput() { if(isPlaying && hitStop <= 0) player.jump(); }
-    window.addEventListener('keydown', (e) => { if(e.code === 'Space') { e.preventDefault(); handleInput(); }});
-    window.addEventListener('mousedown', handleInput);
-    window.addEventListener('touchstart', (e) => { e.preventDefault(); handleInput(); }, {passive: false});
-
-    function loop() {
-        window.loopRunning = true;
-        
-        if (hitStop > 0) { hitStop--; requestAnimationFrame(loop); return; }
-
-        if (cameraShake > 0) {
-            ctx.save(); ctx.translate((Math.random()-0.5)*cameraShake, (Math.random()-0.5)*cameraShake);
-            cameraShake *= 0.85; if(cameraShake < 0.5) cameraShake = 0;
-        }
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        if (isPlaying) {
-            frames++; score++;
-            if (frames % 5 === 0) document.getElementById('score').innerText = score;
-            timeOfDay = Math.min(1, frames / 3000); 
-            
-            if (frames % Math.max(50, 100 - Math.floor(gameSpeed*1.5)) === 0) {
-                const rand = Math.random();
-                if (rand < 0.2) entities.push(new Entity('pho'));
-                else if (rand < 0.45) entities.push(new Entity('roach'));
-                else if (rand < 0.75) entities.push(new Entity('rat'));
-                else entities.push(new Entity('ninja_lead'));
-            }
-            if (frames % 400 === 0) gameSpeed += 0.4; 
-        }
-
-        drawBackground();
-        
-        for (let i = trails.length - 1; i >= 0; i--) {
-            let t = trails[i]; t.life -= 0.1;
-            if (t.life <= 0) trails.splice(i, 1);
-            else {
-                ctx.globalAlpha = t.life * 0.5;
-                player.draw({
-                    ...ctx, save: ctx.save.bind(ctx), restore: ctx.restore.bind(ctx), translate: (x,y) => ctx.translate(t.x, t.y),
-                    rotate: ctx.rotate.bind(ctx), fillStyle: "#00ffcc", fill: ctx.fill.bind(ctx), stroke: ctx.stroke.bind(ctx), beginPath: ctx.beginPath.bind(ctx), arc: ctx.arc.bind(ctx), ellipse: ctx.ellipse.bind(ctx), roundRect: ctx.roundRect.bind(ctx), moveTo: ctx.moveTo.bind(ctx), lineTo: ctx.lineTo.bind(ctx), quadraticCurveTo: ctx.quadraticCurveTo.bind(ctx), drawImage: ctx.drawImage.bind(ctx)
-                }, true);
-                ctx.globalAlpha = 1;
-            }
-        }
-
-        for (let i = entities.length - 1; i >= 0; i--) {
-            if(isPlaying) entities[i].update();
-            entities[i].draw();
-            if (entities[i].markedForDeletion) entities.splice(i, 1);
-        }
-
-        for (let i = particles.length - 1; i >= 0; i--) {
-            let p = particles[i]; p.x += p.vx; p.y += p.vy; p.life -= 0.04;
-            if (p.type === 2) p.size *= 0.9; 
-            ctx.fillStyle = p.color; ctx.globalAlpha = Math.max(0, p.life);
-            ctx.beginPath(); ctx.fillRect(p.x, p.y, p.size, p.size); ctx.globalAlpha = 1;
-            if (p.life <= 0) particles.splice(i, 1);
-        }
-
-        player.update(); player.draw();
-        if (cameraShake > 0) ctx.restore();
+        score = 0; combo = 1; frames = 0; gameSpeed = 8; entities = []; particles = []; floatTexts = [];
+        isPlaying = true;
+        initWorld();
         requestAnimationFrame(loop);
     }
 
-    for(let i=0; i<15; i++) buildings.push({ x: i * 80, w: 60, h: 100 + Math.random()*150 });
-    drawBackground(); player.draw();
+    function gameOver() {
+        isPlaying = false;
+        playSound(100, 'sawtooth', 0.5, 0.4);
+        cameraShake = 30;
+        document.getElementById('gameover').classList.remove('hidden');
+        document.getElementById('final-score').innerText = score;
+    }
+
+    // --- Main Loop ---
+    function loop() {
+        if (!isPlaying) return;
+
+        // Camera Shake logic
+        ctx.save();
+        if (cameraShake > 0) {
+            ctx.translate((Math.random()-0.5)*cameraShake, (Math.random()-0.5)*cameraShake);
+            cameraShake *= 0.9;
+        }
+
+        frames++;
+        timeOfDay = Math.min(1, frames/10000);
+        if (comboTimer > 0) comboTimer--; else combo = 1;
+
+        drawWorld();
+
+        // Spawn logic
+        if (frames % Math.max(40, 90 - Math.floor(gameSpeed)) === 0) {
+            let r = Math.random();
+            if (r < 0.2) entities.push(new Entity('pho'));
+            else if (r < 0.5) entities.push(new Entity('rat'));
+            else if (r < 0.8) entities.push(new Entity('ninja'));
+            else entities.push(new Entity('wire'));
+        }
+        if (frames % 1000 === 0) gameSpeed += 0.5;
+
+        // Trails
+        trails.forEach((t, i) => {
+            t.life -= 0.05;
+            ctx.globalAlpha = t.life * 0.3;
+            ctx.fillStyle = "#00ffcc";
+            let h = t.ducking ? t.h : t.h;
+            ctx.fillRect(t.x, t.y - h, t.w, h);
+            if (t.life <= 0) trails.splice(i, 1);
+        });
+        ctx.globalAlpha = 1;
+
+        // Entities
+        entities.forEach((e, i) => {
+            e.update(); e.draw();
+            if (e.markedForDeletion) entities.splice(i, 1);
+        });
+
+        // Player
+        player.update();
+        player.draw();
+
+        // Particles
+        particles.forEach((p, i) => {
+            p.x += p.vx; p.y += p.vy; p.vy += 0.2; p.life -= 0.02;
+            ctx.fillStyle = p.color; ctx.globalAlpha = p.life;
+            ctx.fillRect(p.x, p.y, p.s, p.s);
+            if (p.life <= 0) particles.splice(i, 1);
+        });
+        ctx.globalAlpha = 1;
+
+        // Floating Text
+        floatTexts.forEach((ft, i) => {
+            ft.y -= 2; ft.life -= 0.02;
+            ctx.fillStyle = `rgba(0, 255, 204, ${ft.life})`;
+            ctx.font = "14px 'Press Start 2P'";
+            ctx.fillText(ft.t, ft.x, ft.y);
+            if (ft.life <= 0) floatTexts.splice(i, 1);
+        });
+
+        // Flash effect
+        if (flashAlpha > 0) {
+            ctx.fillStyle = `rgba(255,255,255,${flashAlpha})`;
+            ctx.fillRect(0,0, canvas.width, canvas.height);
+            flashAlpha -= 0.02;
+        }
+
+        ctx.restore();
+
+        document.getElementById('score').innerText = score;
+        document.getElementById('combo').innerText = "x" + combo;
+
+        requestAnimationFrame(loop);
+    }
+
+    // Initial draw
+    initWorld();
+    drawWorld();
 </script>
 </body>
 </html>
