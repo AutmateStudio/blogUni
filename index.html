@@ -3,290 +3,347 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeadGen Dashboard</title>
+    <title>Oboyma Leads Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-blue: #2563eb;
+            --primary-blue: #3b82f6;
+            --primary-hover: #2563eb;
             --light-blue: #eff6ff;
-            --border-blue: #bfdbfe;
-            --text-dark: #1e293b;
+            --bg-color: #f8fafc;
+            --surface-color: #ffffff;
+            --text-main: #0f172a;
             --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --success: #10b981;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 25px -3px rgba(0,0,0,0.05);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
-        body {
-            display: flex;
-            height: 100vh;
-            background-color: #f8fafc;
-            color: var(--text-dark);
-        }
+        body { display: flex; height: 100vh; background-color: var(--bg-color); color: var(--text-main); }
 
-        /* Sidebar Styles */
+        /* Сайдбар */
         .sidebar {
-            width: 260px;
-            background-color: white;
-            border-right: 1px solid var(--border-blue);
-            display: flex;
-            flex-direction: column;
+            width: 280px; background: var(--surface-color); border-right: 1px solid var(--border-color);
+            display: flex; flex-direction: column; padding: 20px 15px; z-index: 10;
         }
 
         .logo {
-            padding: 24px;
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--primary-blue);
-            border-bottom: 1px solid var(--border-blue);
+            font-size: 20px; font-weight: 700; color: var(--primary-blue);
+            margin-bottom: 30px; padding: 0 15px; display: flex; align-items: center; gap: 10px;
         }
 
-        .nav-menu {
-            flex: 1;
-            padding: 20px 0;
-            overflow-y: auto;
+        .nav-section { margin-bottom: 20px; }
+        .nav-section-title {
+            font-size: 11px; text-transform: uppercase; color: var(--text-muted);
+            font-weight: 600; letter-spacing: 0.5px; margin: 0 0 10px 15px;
         }
 
         .nav-item {
-            padding: 12px 24px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            color: var(--text-muted);
-            transition: all 0.3s ease;
+            padding: 10px 15px; border-radius: 8px; cursor: pointer; color: var(--text-muted);
+            font-weight: 500; font-size: 14px; transition: all 0.2s; display: flex; align-items: center; gap: 10px;
+            margin-bottom: 4px;
         }
 
-        .nav-item:hover, .nav-item.active {
-            background-color: var(--light-blue);
-            color: var(--primary-blue);
-            border-right: 3px solid var(--primary-blue);
+        .nav-item:hover { background: var(--light-blue); color: var(--primary-blue); }
+        .nav-item.active { background: var(--light-blue); color: var(--primary-blue); font-weight: 600; }
+        
+        .user-profile {
+            margin-top: auto; padding: 15px; background: var(--bg-color);
+            border-radius: var(--radius-md); display: flex; align-items: center; gap: 10px;
         }
 
-        /* Main Content Styles */
-        .main-content {
-            flex: 1;
-            padding: 40px;
-            overflow-y: auto;
+        .avatar {
+            width: 32px; height: 32px; background: var(--primary-blue); color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;
         }
 
-        .tab-content {
-            display: none;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border-blue);
-        }
+        /* Основной контент */
+        .main-content { flex: 1; padding: 30px 40px; overflow-y: auto; }
+        .tab-content { display: none; animation: fadeIn 0.3s ease-out; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.4s;
-        }
+        .header-title { font-size: 24px; font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
 
-        h2 {
-            margin-bottom: 24px;
-            color: var(--text-dark);
+        /* Элементы управления (Toggle) */
+        .controls-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .toggle-group { display: flex; background: var(--border-color); border-radius: 8px; padding: 4px; }
+        .toggle-btn {
+            padding: 6px 16px; border-radius: 6px; font-size: 13px; font-weight: 500;
+            cursor: pointer; color: var(--text-muted); border: none; background: transparent; transition: 0.2s;
         }
+        .toggle-btn.active { background: var(--surface-color); color: var(--text-main); box-shadow: var(--shadow-sm); }
 
-        /* Form Elements */
-        .form-group {
-            margin-bottom: 20px;
+        /* Карточки метрик (как на скриншоте) */
+        .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+        .metric-card {
+            background: var(--surface-color); padding: 20px; border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);
         }
+        .metric-title { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; display: flex; justify-content: space-between;}
+        .metric-value { font-size: 32px; font-weight: 700; color: var(--text-main); }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
+        /* Блок с графиком и логами */
+        .analytics-body { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+        .panel {
+            background: var(--surface-color); border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm);
         }
+        .panel-title { font-size: 16px; font-weight: 600; margin-bottom: 20px; }
 
-        input[type="text"], textarea, select {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            outline: none;
-        }
+        /* График (CSS-only) */
+        .chart-container { height: 250px; display: flex; align-items: flex-end; gap: 30px; padding-top: 20px; border-bottom: 1px solid var(--border-color); }
+        .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+        .bar { width: 100%; background: linear-gradient(180deg, var(--primary-blue) 0%, #60a5fa 100%); border-radius: 6px 6px 0 0; transition: height 0.5s; cursor: pointer;}
+        .bar:hover { filter: brightness(1.1); }
+        .bar-label { margin-top: 10px; font-size: 12px; color: var(--text-muted); }
 
-        input[type="text"]:focus, textarea:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px var(--light-blue);
+        /* Логи системы */
+        .log-list { display: flex; flex-direction: column; gap: 10px; overflow-y: auto; max-height: 250px; }
+        .log-item {
+            display: flex; align-items: center; gap: 12px; padding: 12px 15px;
+            background: var(--bg-color); border-radius: 8px; font-size: 13px;
         }
+        .log-icon { width: 24px; height: 24px; background: var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; }
 
-        button.btn-primary {
-            background-color: var(--primary-blue);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
+        /* Подписки */
+        .billing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
+        .plan-card {
+            background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius-lg);
+            padding: 30px 20px; text-align: center; position: relative; transition: 0.3s;
         }
-
-        button.btn-primary:hover {
-            background-color: #1d4ed8;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Mockup specific styles */
-        .grid-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .card {
-            padding: 20px;
-            background: var(--light-blue);
-            border-radius: 8px;
-            border: 1px solid var(--border-blue);
-        }
+        .plan-card:hover { border-color: var(--primary-blue); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .plan-card.active-plan { border: 2px solid var(--primary-blue); background: var(--light-blue); }
+        .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+        .plan-price { font-size: 36px; font-weight: 700; margin: 15px 0; }
+        .plan-price span { font-size: 14px; color: var(--text-muted); font-weight: 400; }
+        .btn { padding: 10px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; width: 100%; margin-top: 20px; }
+        .btn-primary { background: var(--primary-blue); color: white; }
+        .btn-primary:hover { background: var(--primary-hover); }
+        .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
+        .btn-outline:hover { background: var(--bg-color); }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="logo">CoreLead AI</div>
-        <div class="nav-menu" id="nav-menu">
-            <div class="nav-item active" data-tab="prompt">Промт поиска</div>
-            <div class="nav-item" data-tab="autoreply">Настройка автоответа</div>
-            <div class="nav-item" data-tab="channels">Каналы поиска</div>
-            <div class="nav-item" data-tab="crm">Подключение CRM</div>
-            <div class="nav-item" data-tab="discovery">Дискавери</div>
-            <div class="nav-item" data-tab="inbox">Inbox (Сообщения)</div>
-            <div class="nav-item" data-tab="analytics">Аналитика</div>
+        <div class="logo">
+            <div style="width: 24px; height: 24px; background: var(--primary-blue); border-radius: 6px;"></div>
+            Oboyma Leads
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">Аналитика</div>
+            <div class="nav-item active" data-tab="analytics">📊 Analytics</div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">Коммуникации</div>
+            <div class="nav-item" data-tab="inbox">💬 Inbox</div>
+            <div class="nav-item" data-tab="prompts">🎯 Промт поиска</div>
+            <div class="nav-item" data-tab="autoreply">⚡ Автоответы</div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">Экосистема</div>
+            <div class="nav-item" data-tab="discovery">🔍 Discovery</div>
+            <div class="nav-item" data-tab="channels">🔗 Каналы связи</div>
+            <div class="nav-item" data-tab="crm">📦 Интеграция CRM</div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">Воркспейс</div>
+            <div class="nav-item" data-tab="billing">💳 Подписка и биллинг</div>
+            <div class="nav-item" data-tab="settings">⚙️ Настройки</div>
+        </div>
+
+        <div class="user-profile">
+            <div class="avatar">А</div>
+            <div style="font-size: 13px;">
+                <div style="font-weight: 600; color: var(--text-main);">Арина</div>
+                <div style="color: var(--text-muted); font-size: 11px;">Workspace Admin</div>
+            </div>
         </div>
     </div>
 
     <div class="main-content">
         
-        <div id="prompt" class="tab-content active">
-            <h2>Настройка промта поиска</h2>
-            <div class="form-group">
-                <label>Основной промт для нейросети (Кого ищем?)</label>
-                <textarea rows="5" placeholder="Например: Ищем людей, которые спрашивают про аренду квартир долгосрок..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>Минус-слова (кого исключить)</label>
-                <input type="text" placeholder="риелтор, агентство, посуточно">
-            </div>
-            <button class="btn-primary">Сохранить промт</button>
-        </div>
-
-        <div id="autoreply" class="tab-content">
-            <h2>Автоответ найденным лидам</h2>
-            <div class="form-group">
-                <label>Шаблон сообщения</label>
-                <textarea rows="6" placeholder="Здравствуйте, {Name}! Увидел ваш запрос в {Channel_Name}. Мы можем помочь с..."></textarea>
-                <small style="color: var(--text-muted); display: block; margin-top: 5px;">Используйте переменные: {Name}, {Channel_Name}, {Lead_Request}</small>
-            </div>
-            <button class="btn-primary">Активировать автоответ</button>
-        </div>
-
-        <div id="channels" class="tab-content">
-            <h2>Подключенные каналы поиска</h2>
-            <div class="grid-cards">
-                <div class="card">
-                    <h3>Telegram</h3>
-                    <p style="color: green; margin-top: 10px;">Активно (12 чатов)</p>
-                </div>
-                <div class="card">
-                    <h3>VKontakte</h3>
-                    <p style="color: var(--text-muted); margin-top: 10px;">Не подключено</p>
-                </div>
-                <div class="card">
-                    <h3>Instagram</h3>
-                    <p style="color: var(--text-muted); margin-top: 10px;">Не подключено</p>
+        <div id="analytics" class="tab-content active">
+            <div class="controls-row">
+                <h1 class="header-title">Аналитика</h1>
+                <div class="toggle-group">
+                    <button class="toggle-btn active">Ежедневная</button>
+                    <button class="toggle-btn">По подписке</button>
                 </div>
             </div>
-        </div>
 
-        <div id="crm" class="tab-content">
-            <h2>Интеграция с CRM-системами</h2>
-            <div class="form-group">
-                <label>Выберите CRM</label>
-                <select>
-                    <option>Bitrix24</option>
-                    <option>amoCRM</option>
-                    <option>Webhook (Custom API)</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>API Ключ / Webhook URL</label>
-                <input type="text" placeholder="Введите токен доступа">
-            </div>
-            <button class="btn-primary">Подключить</button>
-        </div>
-
-        <div id="discovery" class="tab-content">
-            <h2>Дискавери (Поиск новых источников)</h2>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">Система автоматически предлагает новые чаты и группы на основе вашего промта.</p>
-            <div class="card">
-                <h4>Аномалия | Москва (Telegram)</h4>
-                <p>Совпадение аудитории: 89%</p>
-                <button class="btn-primary" style="margin-top: 10px; padding: 5px 10px;">Добавить в парсинг</button>
-            </div>
-        </div>
-
-        <div id="inbox" class="tab-content">
-            <h2>Inbox (Активные диалоги)</h2>
-            <div style="display: flex; gap: 20px;">
-                <div style="flex: 1; border: 1px solid var(--border-blue); border-radius: 8px; padding: 10px;">
-                    <p style="padding: 10px; background: var(--light-blue); border-radius: 4px; font-weight: bold;">Kirill Beginin (Telegram)</p>
-                    <p style="padding: 10px; border-bottom: 1px solid #eee;">Аренда СПБ (VK)</p>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-title">Всего Лидов <span>👥</span></div>
+                    <div class="metric-value">1,245</div>
                 </div>
-                <div style="flex: 2; border: 1px solid var(--border-blue); border-radius: 8px; padding: 20px;">
-                    <div style="background: #f1f5f9; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
-                        <strong>Kirill:</strong> Друзья, а кто у нас здесь занимается арендой квартир...
+                <div class="metric-card">
+                    <div class="metric-title">Активные диалоги <span>📈</span></div>
+                    <div class="metric-value">84</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Отправлено сообщений <span>💬</span></div>
+                    <div class="metric-value">342</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Конверсии <span>🎯</span></div>
+                    <div class="metric-value">8.5%</div>
+                </div>
+            </div>
+
+            <div class="analytics-body">
+                <div class="panel">
+                    <div class="panel-title">Активность (Demo)</div>
+                    <div class="chart-container">
+                        <div class="bar-group">
+                            <div class="bar" style="height: 35%;"></div>
+                            <div class="bar-label">Пн</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height: 85%;"></div>
+                            <div class="bar-label">Вт</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height: 60%;"></div>
+                            <div class="bar-label">Ср</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height: 40%;"></div>
+                            <div class="bar-label">Чт</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height: 90%;"></div>
+                            <div class="bar-label">Пт</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height: 15%; background: var(--border-color);"></div>
+                            <div class="bar-label">Сб</div>
+                        </div>
+                        <div class="bar-group">
+                            <div class="bar" style="height: 10%; background: var(--border-color);"></div>
+                            <div class="bar-label">Вс</div>
+                        </div>
                     </div>
-                    <textarea rows="3" placeholder="Написать ответ Кириллу..." style="margin-bottom: 10px;"></textarea>
-                    <button class="btn-primary">Отправить</button>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">Логи системы</div>
+                    <div class="log-list">
+                        <div class="log-item">
+                            <div class="log-icon">🤖</div>
+                            <div>Найден новый лид (VK)</div>
+                        </div>
+                        <div class="log-item">
+                            <div class="log-icon">✉️</div>
+                            <div>Автоответ отправлен Кириллу</div>
+                        </div>
+                        <div class="log-item">
+                            <div class="log-icon" style="background: #dcfce7; color: #166534;">✓</div>
+                            <div>Лид передан в amoCRM</div>
+                        </div>
+                        <div class="log-item">
+                            <div class="log-icon">🤖</div>
+                            <div>Найден новый лид (Telegram)</div>
+                        </div>
+                        <div class="log-item">
+                            <div class="log-icon">⚙️</div>
+                            <div>Обновлен промт поиска</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div id="analytics" class="tab-content">
-            <h2>Аналитика</h2>
-            <div class="grid-cards">
-                <div class="card" style="text-align: center;">
-                    <h3 style="font-size: 32px; color: var(--primary-blue);">1,245</h3>
-                    <p>Лидов найдено (за месяц)</p>
+        <div id="billing" class="tab-content">
+            <h1 class="header-title">Управление подпиской</h1>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Выберите тарифный план, который лучше всего подходит для ваших задач лидогенерации.</p>
+            
+            <div class="billing-grid">
+                <div class="plan-card">
+                    <h3>Start</h3>
+                    <div class="plan-price">₽2,900<span>/мес</span></div>
+                    <ul style="text-align: left; margin: 20px 0; font-size: 14px; color: var(--text-muted); line-height: 2;">
+                        <li>✓ До 500 лидов в месяц</li>
+                        <li>✓ 2 канала поиска (TG, VK)</li>
+                        <li>✓ Базовые автоответы</li>
+                        <li>✕ Интеграция с CRM</li>
+                    </ul>
+                    <button class="btn btn-outline">Перейти на Start</button>
                 </div>
-                <div class="card" style="text-align: center;">
-                    <h3 style="font-size: 32px; color: var(--primary-blue);">342</h3>
-                    <p>Отправлено сообщений</p>
+
+                <div class="plan-card active-plan">
+                    <div class="badge">Текущий тариф</div>
+                    <h3>Pro</h3>
+                    <div class="plan-price">₽5,900<span>/мес</span></div>
+                    <ul style="text-align: left; margin: 20px 0; font-size: 14px; color: var(--text-muted); line-height: 2;">
+                        <li>✓ До 3000 лидов в месяц</li>
+                        <li>✓ Все каналы поиска</li>
+                        <li>✓ AI-Автоответы (Lidochka)</li>
+                        <li>✓ Интеграция с amoCRM/Bitrix</li>
+                    </ul>
+                    <button class="btn btn-primary">Управлять тарифом</button>
                 </div>
-                <div class="card" style="text-align: center;">
-                    <h3 style="font-size: 32px; color: var(--primary-blue);">8.5%</h3>
-                    <p>Конверсия в диалог</p>
+
+                <div class="plan-card">
+                    <h3>Agency</h3>
+                    <div class="plan-price">₽15,000<span>/мес</span></div>
+                    <ul style="text-align: left; margin: 20px 0; font-size: 14px; color: var(--text-muted); line-height: 2;">
+                        <li>✓ Безлимитные лиды</li>
+                        <li>✓ Кастомные парсеры</li>
+                        <li>✓ White-label решение</li>
+                        <li>✓ Выделенный менеджер</li>
+                    </ul>
+                    <button class="btn btn-outline">Связаться с нами</button>
                 </div>
             </div>
         </div>
+
+        <div id="inbox" class="tab-content"><h1 class="header-title">Inbox</h1><p>Раздел в разработке...</p></div>
+        <div id="prompts" class="tab-content"><h1 class="header-title">Промт поиска</h1><p>Раздел в разработке...</p></div>
+        <div id="autoreply" class="tab-content"><h1 class="header-title">Автоответы</h1><p>Раздел в разработке...</p></div>
+        <div id="discovery" class="tab-content"><h1 class="header-title">Discovery</h1><p>Раздел в разработке...</p></div>
+        <div id="channels" class="tab-content"><h1 class="header-title">Каналы связи</h1><p>Раздел в разработке...</p></div>
+        <div id="crm" class="tab-content"><h1 class="header-title">Интеграция CRM</h1><p>Раздел в разработке...</p></div>
+        <div id="settings" class="tab-content"><h1 class="header-title">Настройки</h1><p>Раздел в разработке...</p></div>
 
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Переключение вкладок меню
             const navItems = document.querySelectorAll('.nav-item');
             const tabContents = document.querySelectorAll('.tab-content');
 
             navItems.forEach(item => {
                 item.addEventListener('click', () => {
-                    // Remove active class from all
                     navItems.forEach(nav => nav.classList.remove('active'));
                     tabContents.forEach(tab => tab.classList.remove('active'));
 
-                    // Add active class to clicked
                     item.classList.add('active');
                     const tabId = item.getAttribute('data-tab');
-                    document.getElementById(tabId).classList.add('active');
+                    const targetTab = document.getElementById(tabId);
+                    if(targetTab) targetTab.classList.add('active');
+                });
+            });
+
+            // Переключение Ежедневная/По подписке
+            const toggleBtns = document.querySelectorAll('.toggle-btn');
+            toggleBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    toggleBtns.forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    // Здесь в будущем будет логика обновления данных графика
                 });
             });
         });
