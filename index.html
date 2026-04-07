@@ -6,11 +6,19 @@
     <title>Oboyma Leads Platform</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary-blue: #2563eb; --primary-hover: #1d4ed8; --light-blue: #eff6ff; --bg-color: #f8fafc; --surface-color: #ffffff; --text-main: #0f172a; --text-muted: #64748b; --border-color: #e2e8f0; --success: #10b981; --radius-md: 12px; --radius-lg: 16px; --shadow-sm: 0 1px 3px rgba(0,0,0,0.05); --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05); --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.1); --shadow-chat: 0 10px 25px -5px rgba(37,99,235,0.1); }
+        :root {
+            --primary-blue: #2563eb; --primary-hover: #1d4ed8; --light-blue: #eff6ff; 
+            --bg-color: #f8fafc; --surface-color: #ffffff; --text-main: #0f172a; 
+            --text-muted: #64748b; --border-color: #e2e8f0; --success: #10b981; 
+            --warning: #f59e0b; --radius-md: 12px; --radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05); --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.1); --shadow-chat: 0 10px 25px -5px rgba(37,99,235,0.1);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { display: flex; height: 100vh; background-color: var(--bg-color); color: var(--text-main); overflow: hidden; }
 
-        /* Сайдбар */
+        /* Sidebar */
         .sidebar { width: 280px; background: var(--surface-color); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 20px 15px; z-index: 10; overflow-y: auto; }
         .sidebar::-webkit-scrollbar { width: 4px; } .sidebar::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
         .logo { font-size: 20px; font-weight: 700; color: var(--primary-blue); margin-bottom: 20px; padding: 0 15px; display: flex; align-items: center; gap: 10px; }
@@ -21,7 +29,7 @@
         .user-profile { margin-top: auto; padding: 15px; background: var(--bg-color); border-radius: var(--radius-md); display: flex; align-items: center; gap: 10px; }
         .avatar { width: 32px; height: 32px; background: linear-gradient(135deg, var(--primary-blue), #60a5fa); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
 
-        /* Основной контент */
+        /* Main Content & Shared UI */
         .main-content { flex: 1; padding: 30px 40px; overflow-y: auto; scroll-behavior: smooth; position: relative; }
         .tab-content { display: none; animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .tab-content.active { display: block; }
@@ -29,35 +37,37 @@
         .header-title { font-size: 28px; font-weight: 700; margin-bottom: 8px; color: var(--text-main); }
         .header-subtitle { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
 
-        /* Элементы UI */
-        .btn { padding: 10px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; }
+        .btn { padding: 10px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; display: inline-block; text-align: center; }
         .btn-primary { background: var(--primary-blue); color: white; box-shadow: 0 4px 12px rgba(37,99,235,0.2); }
         .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
         .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
         .btn-outline:hover { background: var(--bg-color); }
-        .btn-ghost { background: transparent; color: var(--primary-blue); border: none; cursor: pointer; transition: 0.2s; }
-        .form-group { margin-bottom: 20px; max-width: 100%; }
+        .btn-ghost { background: transparent; color: var(--primary-blue); border: none; cursor: pointer; transition: 0.2s; font-weight: 600; }
+        .btn-ghost:hover { background: var(--light-blue); border-radius: 6px; }
+
+        .form-group { margin-bottom: 20px; width: 100%; }
         label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 14px; }
-        input[type="text"], textarea, select { width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; outline: none; transition: 0.2s; font-size: 14px; }
+        input[type="text"], textarea, select { width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; outline: none; transition: 0.2s; font-size: 14px; font-family: 'Inter', sans-serif;}
         input[type="text"]:focus, textarea:focus, select:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 3px var(--light-blue); }
-        .toggle-group { display: inline-flex; background: var(--border-color); border-radius: 8px; padding: 4px; margin-bottom: 20px; }
+
+        .toggle-group { display: inline-flex; background: var(--border-color); border-radius: 8px; padding: 4px; }
         .toggle-btn { padding: 8px 20px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-muted); border: none; background: transparent; transition: 0.2s; }
         .toggle-btn.active { background: var(--surface-color); color: var(--text-main); box-shadow: var(--shadow-sm); }
         
-        /* Свитчеры и карточки */
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 34px; }
         .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         input:checked + .slider { background-color: var(--primary-blue); }
         input:checked + .slider:before { transform: translateX(20px); }
-        .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
         .card { padding: 24px; background: var(--surface-color); border-radius: var(--radius-lg); border: 1px solid var(--border-color); transition: 0.3s; box-shadow: var(--shadow-sm); }
         .card:hover { border-color: var(--primary-blue); box-shadow: var(--shadow-md); }
         .panel { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm); }
 
-        /* Чат Онбординга */
-        .chat-container { max-width: 800px; background: var(--surface-color); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-chat); display: flex; flex-direction: column; height: 500px; }
+        /* Chat (Onboarding) */
+        .chat-container { max-width: 800px; background: var(--surface-color); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-chat); display: flex; flex-direction: column; height: 550px; }
         .chat-header { padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 15px; }
         .chat-body { padding: 20px; flex: 1; overflow-y: auto; background: var(--bg-color); display: flex; flex-direction: column; gap: 15px; }
         .msg { max-width: 80%; padding: 12px 18px; border-radius: 16px; font-size: 14px; line-height: 1.5; }
@@ -65,8 +75,27 @@
         .msg-user { background: var(--primary-blue); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
         .chat-footer { padding: 20px; background: var(--surface-color); border-top: 1px solid var(--border-color); display: flex; gap: 10px; }
 
-        /* Канбан Доска с Drag&Drop */
-        .kanban-board { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 15px; height: calc(100vh - 180px); align-items: flex-start; }
+        /* Discovery Tab */
+        .platform-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; overflow-x: auto; }
+        .p-tab { padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-muted); background: var(--surface-color); border: 1px solid var(--border-color); transition: 0.2s; white-space: nowrap; }
+        .p-tab.active { background: var(--primary-blue); color: white; border-color: var(--primary-blue); }
+        .result-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 10px; transition: 0.2s; }
+        .result-item:hover { border-color: var(--primary-blue); }
+        .ai-explain-box { display: none; margin-top: 15px; background: var(--light-blue); padding: 16px; border-radius: 8px; font-size: 13px; border-left: 3px solid var(--primary-blue); line-height: 1.6; }
+        .ai-explain-box.show { display: block; animation: fadeIn 0.3s; }
+
+        /* Analytics Tab */
+        .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+        .metric-card { background: var(--surface-color); padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+        .chart-container { height: 250px; display: flex; align-items: flex-end; gap: 30px; padding-top: 20px; border-bottom: 1px solid var(--border-color); }
+        .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+        .bar { width: 100%; background: linear-gradient(180deg, var(--primary-blue) 0%, #60a5fa 100%); border-radius: 6px 6px 0 0; transition: height 0.5s; cursor: pointer; }
+        .bar:hover { filter: brightness(1.1); }
+        .log-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-color); border-radius: 8px; font-size: 13px; margin-bottom: 10px; }
+        .log-icon { width: 24px; height: 24px; background: var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+
+        /* Kanban Board */
+        .kanban-board { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 15px; height: calc(100vh - 200px); align-items: flex-start; }
         .kanban-col { flex: 0 0 320px; background: #f1f5f9; border-radius: var(--radius-lg); padding: 15px; display: flex; flex-direction: column; gap: 15px; border: 1px solid var(--border-color); min-height: 200px; max-height: 100%; overflow-y: auto; transition: background 0.2s; }
         .kanban-col.drag-over { background: #e2e8f0; border: 1px dashed var(--primary-blue); }
         .kanban-col h3 { font-size: 14px; font-weight: 600; color: var(--text-muted); display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -78,37 +107,27 @@
         .card-tags { display: flex; gap: 8px; margin-bottom: 12px; }
         .c-tag { font-size: 11px; padding: 4px 8px; border-radius: 6px; font-weight: 600; }
         .card-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-        .card-text { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        .card-footer { display: flex; justify-content: space-between; border-top: 1px solid var(--border-color); padding-top: 12px; }
+        .card-text { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.5; }
+        .card-footer { display: flex; justify-content: space-between; border-top: 1px solid var(--border-color); padding-top: 12px; align-items: center;}
         .t-avatar { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--surface-color); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; color: white; margin-left: -8px; }
+        .team-avatars { display: flex; align-items: center; }
 
-        /* База лидов */
-        .platform-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
-        .p-tab { padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-muted); background: var(--surface-color); border: 1px solid var(--border-color); }
-        .p-tab.active { background: var(--primary-blue); color: white; border-color: var(--primary-blue); }
-        .result-item { display: flex; justify-content: space-between; padding: 16px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 10px; }
-        .ai-explain-box { display: none; margin-top: 15px; background: var(--light-blue); padding: 16px; border-radius: 8px; font-size: 13px; border-left: 3px solid var(--primary-blue); }
-        .ai-explain-box.show { display: block; }
-
-        /* Аналитика и Биллинг */
-        .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
-        .metric-card { background: var(--surface-color); padding: 20px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
-        .chart-container { height: 250px; display: flex; align-items: flex-end; gap: 30px; padding-top: 20px; border-bottom: 1px solid var(--border-color); }
-        .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
-        .bar { width: 100%; background: linear-gradient(180deg, var(--primary-blue) 0%, #60a5fa 100%); border-radius: 6px 6px 0 0; }
+        /* Billing */
         .billing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
-        .plan-card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 30px 20px; text-align: center; position: relative; }
+        .plan-card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 30px 20px; text-align: center; position: relative; transition: 0.3s; }
+        .plan-card:hover { border-color: var(--primary-blue); box-shadow: var(--shadow-md); transform: translateY(-2px); }
         .plan-card.active-plan { border: 2px solid var(--primary-blue); background: var(--light-blue); }
-
-        /* Уведомления и Модалка */
+        .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+        
+        /* Modal & Toasts */
         .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
         .toast { background: var(--surface-color); border-left: 4px solid var(--success); box-shadow: var(--shadow-lg); padding: 16px 20px; border-radius: 8px; display: flex; align-items: center; gap: 12px; animation: slideIn 0.3s ease-out forwards, fadeOut 0.3s ease-in 2.7s forwards; transform: translateX(120%); }
         @keyframes slideIn { to { transform: translateX(0); } } @keyframes fadeOut { to { opacity: 0; transform: translateY(-10px); } }
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15,23,42,0.4); backdrop-filter: blur(4px); z-index: 2000; align-items: flex-start; justify-content: center; padding-top: 10vh; }
         .modal-overlay.active { display: flex; }
-        .cmd-modal { background: var(--surface-color); width: 100%; max-width: 600px; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border: 1px solid var(--border-color); }
+        .cmd-modal { background: var(--surface-color); width: 100%; max-width: 600px; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border: 1px solid var(--border-color); overflow: hidden; }
         .cmd-input { width: 100%; padding: 20px; border: none; border-bottom: 1px solid var(--border-color); font-size: 16px; outline: none; }
-        .cmd-item { padding: 12px 20px; display: flex; gap: 15px; cursor: pointer; font-size: 14px; }
+        .cmd-item { padding: 12px 20px; display: flex; gap: 15px; cursor: pointer; font-size: 14px; align-items: center; }
         .cmd-item:hover { background: var(--light-blue); color: var(--primary-blue); }
     </style>
 </head>
@@ -118,16 +137,20 @@
     <div id="cmd-modal-overlay" class="modal-overlay">
         <div class="cmd-modal">
             <input type="text" class="cmd-input" placeholder="Поиск лидов, настроек или чатов... (Esc для выхода)" autofocus>
-            <div style="padding: 10px 0;">
+            <div style="padding: 10px 0; max-height: 300px; overflow-y: auto;">
                 <div class="cmd-item" onclick="document.querySelector('[data-tab=inbox]').click(); document.getElementById('cmd-modal-overlay').classList.remove('active');">💬 Чат: Kirill Beginin (Telegram)</div>
                 <div class="cmd-item" onclick="document.querySelector('[data-tab=prompts]').click(); document.getElementById('cmd-modal-overlay').classList.remove('active');">🎯 Настройка: Редактировать автоответы</div>
                 <div class="cmd-item" onclick="document.querySelector('[data-tab=crm]').click(); document.getElementById('cmd-modal-overlay').classList.remove('active');">📦 Интеграция: amoCRM</div>
+                <div class="cmd-item" onclick="document.querySelector('[data-tab=billing]').click(); document.getElementById('cmd-modal-overlay').classList.remove('active');">💳 Подписка: Управление тарифом Pro</div>
             </div>
         </div>
     </div>
 
     <div class="sidebar">
-        <div class="logo"><div style="width: 24px; height: 24px; background: linear-gradient(135deg, var(--primary-blue), #60a5fa); border-radius: 6px;"></div> Oboyma Leads</div>
+        <div class="logo">
+            <div style="width: 24px; height: 24px; background: linear-gradient(135deg, var(--primary-blue), #60a5fa); border-radius: 6px;"></div>
+            Oboyma Leads
+        </div>
         
         <button class="btn btn-outline" style="width: 100%; display: flex; justify-content: space-between; font-size: 12px; padding: 8px 12px; margin-bottom: 20px;" onclick="document.getElementById('cmd-modal-overlay').classList.add('active'); document.querySelector('.cmd-input').focus();">
             <span>Поиск...</span> <span style="background: var(--bg-color); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border-color);">Cmd K</span>
@@ -154,9 +177,13 @@
             <div class="nav-item" data-tab="billing">💳 Подписка и биллинг</div>
             <div class="nav-item" data-tab="settings">⚙️ Настройки</div>
         </div>
+        
         <div class="user-profile">
             <div class="avatar">А</div>
-            <div style="font-size: 13px;"><div style="font-weight: 600; color: var(--text-main);">Арина</div><div style="color: var(--text-muted); font-size: 11px;">Workspace Admin</div></div>
+            <div style="font-size: 13px;">
+                <div style="font-weight: 600; color: var(--text-main);">Арина</div>
+                <div style="color: var(--text-muted); font-size: 11px;">Workspace Admin</div>
+            </div>
         </div>
     </div>
 
@@ -164,160 +191,304 @@
         
         <div id="about" class="tab-content active">
             <h1 class="header-title">О компании</h1>
-            <p class="header-subtitle">Заполни профиль с помощью ИИ, чтобы система научилась искать идеальных клиентов.</p>
+            <p class="header-subtitle">Заполни профиль с помощью ИИ, чтобы система научилась искать твоих идеальных клиентов.</p>
             <div class="chat-container">
-                <div class="chat-header"><div style="font-size: 20px;">🤖</div><div><div style="font-weight: 700;">Лидочка (AI Объектив)</div><div style="font-size: 12px; color: var(--success);">● В сети</div></div></div>
+                <div class="chat-header">
+                    <div style="font-size: 24px; background: var(--light-blue); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">🤖</div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 16px;">Лидочка (AI Объектив)</div>
+                        <div style="font-size: 12px; color: var(--success);">● В сети, готова к работе</div>
+                    </div>
+                </div>
                 <div class="chat-body">
-                    <div class="msg msg-ai">Привет! Расскажи, чем именно занимается твоя компания? Какую боль клиентов вы решаете?</div>
-                    <div class="msg msg-user">Мы занимаемся автоматизацией бизнес-процессов и внедряем ИИ-ассистентов для B2B.</div>
-                    <div class="msg msg-ai">Отлично! Кто ваш идеальный клиент?</div>
+                    <div class="msg msg-ai">Привет, Арина! Я Лидочка — твой интеллектуальный ассистент от Oboyma Lab. Какую боль клиентов вы решаете?</div>
+                    <div class="msg msg-user">Мы занимаемся автоматизацией бизнес-процессов, внедряем ИИ-ассистентов для B2B и настраиваем автоворонки.</div>
+                    <div class="msg msg-ai">Отлично! Кто ваш идеальный клиент? Это фрилансеры, стартапы или крупный Enterprise?</div>
                     <div class="msg msg-user">В основном средний B2B, инфобиз и агентства.</div>
                     <div class="msg msg-ai">
-                        Поняла. <strong>Подытожим:</strong><br><br>Автоматизация и ИИ для среднего B2B и агентств. Всё верно?
-                        <div style="margin-top: 15px;"><button class="btn btn-primary show-toast" data-msg="Профиль компании успешно сохранен!">Всё верно, сохранить</button></div>
+                        Поняла. <strong>Подытожим:</strong><br><br>Ваша компания занимается внедрением ИИ и автоматизацией бизнес-процессов. Ваша целевая аудитория — средний B2B, инфобизнес и digital-агентства.<br><br><em>Всё верно? Если да, я заберу эту информацию в ядро промта.</em>
+                        <div style="margin-top: 15px; display: flex; gap: 10px;">
+                            <button class="btn btn-primary show-toast" data-msg="Профиль компании успешно сохранен в ядро ИИ!">Всё верно, сохранить</button>
+                            <button class="btn btn-outline" style="background: white;">Внести правки</button>
+                        </div>
                     </div>
+                </div>
+                <div class="chat-footer">
+                    <input type="text" style="flex: 1; padding: 14px 20px; border: 1px solid var(--border-color); border-radius: 24px; outline: none; font-size: 14px;" placeholder="Напиши Лидочке...">
+                    <button class="btn btn-primary show-toast" data-msg="Сообщение отправлено!" style="border-radius: 24px; padding: 0 20px;">➔</button>
                 </div>
             </div>
         </div>
 
         <div id="discovery" class="tab-content">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <div><h1 class="header-title">База лидов</h1><p class="header-subtitle">Умный поиск чатов и сообществ.</p></div>
+                <div>
+                    <h1 class="header-title">База лидов</h1>
+                    <p class="header-subtitle">Умный поиск чатов и сообществ для перехвата горячих запросов.</p>
+                </div>
                 <div class="toggle-group" id="funnel-mode">
                     <button class="toggle-btn" data-mode="expert">Режим Эксперта</button>
                     <button class="toggle-btn active" data-mode="auto">Автонастройка (AI)</button>
                 </div>
             </div>
+            
             <div id="expert-view" style="display: none;">
-                <div class="platform-tabs"><div class="p-tab active">Telegram</div><div class="p-tab">VKontakte</div></div>
+                <div class="platform-tabs">
+                    <div class="p-tab active">Telegram</div>
+                    <div class="p-tab">VKontakte</div>
+                    <div class="p-tab">Instagram</div>
+                    <div class="p-tab">Threads</div>
+                    <div class="p-tab">МАХ</div>
+                    <div class="p-tab">Одноклассники</div>
+                </div>
                 <div style="display: flex; gap: 20px;">
-                    <div style="flex: 1;"><div class="panel"><h3>🤖 AI Deep Research</h3><input type="text" placeholder="Уточни запрос..." style="margin: 15px 0;"><button class="btn btn-outline" style="width:100%;">НАСТРОИТЬ ЧАСТОТУ ЧАТОВ</button></div></div>
+                    <div style="flex: 1;">
+                        <div class="panel" style="margin-bottom: 20px;">
+                            <h3 style="margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">🤖 AI Deep Research</h3>
+                            <div style="background: var(--bg-color); border-radius: 8px; padding: 15px; margin-bottom: 15px; font-size: 13px; border-left: 3px solid var(--primary-blue);">
+                                <strong>Лидочка:</strong> Для Telegram я предлагаю искать по ключам: "нужна crm", "подскажите интегратора", "как внедрить ии". Уточним детали?
+                            </div>
+                            <input type="text" placeholder="Уточни запрос..." style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 15px;">
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button class="btn btn-outline show-toast" data-msg="Открыто окно смены промта" style="font-size: 12px; flex: 1;">ЗДЕСЬ ВЫ МОЖЕТЕ ПОМЕНЯТЬ ПРОМТ</button>
+                                <button class="btn btn-outline show-toast" data-msg="Открыто окно настройки частоты" style="font-size: 12px; flex: 1;">НАСТРОИТЬ ЧАСТОТУ ЧАТОВ</button>
+                            </div>
+                        </div>
+                    </div>
                     <div style="flex: 1.5;">
-                        <h3 style="margin-bottom: 15px;">Найденные сообщества</h3>
-                        <div class="result-item"><div><h4>B2B Sales & Marketing</h4><p style="font-size: 13px; color: var(--text-muted);">Совпадение: 94%</p></div><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
-                        <div class="result-item"><div><h4>Клуб Внедренцев CRM</h4><p style="font-size: 13px; color: var(--text-muted);">Совпадение: 88%</p></div><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+                        <h3 style="margin-bottom: 15px;">Найденные сообщества (Ранжирование)</h3>
+                        <div class="result-item">
+                            <div><h4 style="margin-bottom: 4px; font-size: 15px;">B2B Sales & Marketing (Telegram)</h4><p style="font-size: 13px; color: var(--text-muted);">Совпадение: 94% • 15к участников</p></div>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="result-item">
+                            <div><h4 style="margin-bottom: 4px; font-size: 15px;">Клуб Внедренцев CRM</h4><p style="font-size: 13px; color: var(--text-muted);">Совпадение: 88% • 3к участников</p></div>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="result-item">
+                            <div><h4 style="margin-bottom: 4px; font-size: 15px;">Флудилка Предпринимателей</h4><p style="font-size: 13px; color: var(--text-muted);">Совпадение: 45% • Слишком широкий профиль</p></div>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
                     </div>
                 </div>
             </div>
+            
             <div id="auto-view" style="text-align: center; padding: 40px 20px; background: var(--surface-color); border-radius: var(--radius-lg); border: 1px dashed var(--primary-blue);">
                 <div style="font-size: 40px; margin-bottom: 20px;">✨</div>
                 <h3 style="margin-bottom: 10px;">Магия AI активирована</h3>
-                <p style="color: var(--text-muted); margin-bottom: 30px;">Промт сформирован автоматически.</p>
+                <p style="color: var(--text-muted); margin-bottom: 30px; max-width: 500px; margin-left: auto; margin-right: auto;">Промт и список чатов сформированы автоматически на основе диалога в разделе «О компании».</p>
                 <div style="background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; max-width: 650px; margin: 0 auto; text-align: left;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                        <h4>Сгенерированный Промт</h4><button class="btn-ghost" onclick="document.getElementById('ai-explain').classList.toggle('show')">👁️ Почему ИИ выбрал это?</button>
+                        <h4 style="font-size: 15px;">Сгенерированный Промт</h4>
+                        <button class="btn-ghost" onclick="document.getElementById('ai-explain').classList.toggle('show')" style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--border-color); background: white;">
+                            👁️ Почему ИИ выбрал это?
+                        </button>
                     </div>
-                    <div style="font-family: monospace; font-size: 14px; background: white; padding: 15px; border-radius: 8px; border: 1px dashed var(--primary-blue);">("внедрение" OR "ии-ассистент") AND ("отдел продаж") AND (b2b)</div>
-                    <div id="ai-explain" class="ai-explain-box"><strong>Логика Лидочки:</strong> Добавлены слова "автоматизация" и "ии-ассистент" на основе вашего профиля.</div>
+                    <div style="font-family: monospace; font-size: 14px; background: white; padding: 15px; border-radius: 8px; border: 1px dashed var(--primary-blue); color: var(--text-main);">
+                        ("внедрение" OR "ии-ассистент" OR "автоматизация") AND ("отдел продаж" OR "воронка") AND (b2b OR "агентство")
+                    </div>
+                    <div id="ai-explain" class="ai-explain-box">
+                        <div style="font-weight: 600; margin-bottom: 8px;">Логика Лидочки:</div>
+                        • Добавлены слова <strong>"автоматизация"</strong> и <strong>"ии-ассистент"</strong>, так как вы указали это как услугу.<br>
+                        • Использован фильтр <strong>(b2b OR "агентство")</strong> для отсечения нерелевантных запросов.<br>
+                        • Исключены минус-слова <em>"работа", "вакансия"</em> для защиты от спама.
+                    </div>
                 </div>
             </div>
         </div>
 
         <div id="prompts" class="tab-content">
             <h1 class="header-title">Тонкая настройка</h1>
+            <p class="header-subtitle">Ручное управление переменными и сценариями автоответов.</p>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                 <div class="panel">
-                    <h3 style="margin-bottom: 20px;">Ручной Промт</h3>
-                    <div class="form-group"><label>Минус-слова</label><input type="text" placeholder="риелтор, агентство"></div>
-                    <button class="btn btn-primary show-toast" data-msg="Правила фильтрации обновлены!">Сохранить правила</button>
+                    <h3 style="margin-bottom: 20px;">Ручной Промт (Fallback)</h3>
+                    <div class="form-group"><label>Минус-слова (кого исключить)</label><input type="text" placeholder="риелтор, агентство, посуточно, ищу работу"></div>
+                    <div class="form-group"><label>Словарные фильтры (Regex)</label><textarea rows="3" placeholder="^.*(ищу|подскажите|посоветуйте).*$"></textarea></div>
+                    <button class="btn btn-primary show-toast" data-msg="Словарные правила обновлены!">Сохранить правила</button>
                 </div>
                 <div class="panel">
-                    <h3 style="margin-bottom: 20px;">Автоответ</h3>
-                    <div class="form-group"><label>Шаблон сообщения</label><textarea rows="3">Здравствуйте, {Name}!</textarea></div>
-                    <button class="btn btn-primary show-toast" data-msg="Автоответы активированы!">Активировать автоответ</button>
+                    <h3 style="margin-bottom: 20px;">Автоответ найденным лидам</h3>
+                    <div class="form-group">
+                        <label>Шаблон первого сообщения</label>
+                        <textarea rows="4" placeholder="Здравствуйте, {Name}! Увидел ваш запрос в {Channel_Name}. Мы можем помочь с..."></textarea>
+                        <small style="color: var(--text-muted); display: block; margin-top: 8px;">Переменные: {Name}, {Channel_Name}, {Lead_Request}</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Задержка перед отправкой</label>
+                        <select><option>Сразу</option><option>Через 5 минут</option><option>Имитация печати (Случайно 2-7 мин)</option></select>
+                    </div>
+                    <button class="btn btn-primary show-toast" data-msg="Сценарий автоответа активирован!">Активировать автоответ</button>
                 </div>
             </div>
         </div>
 
         <div id="analytics" class="tab-content">
-            <h1 class="header-title" style="margin-bottom: 24px;">Дашборд аналитики</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h1 class="header-title" style="margin: 0;">Дашборд аналитики</h1>
+                <div class="toggle-group" id="analytics-toggle">
+                    <button class="toggle-btn active">Ежедневная</button>
+                    <button class="toggle-btn">По подписке</button>
+                </div>
+            </div>
             <div class="metrics-grid">
-                <div class="metric-card"><div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Всего Лидов</div><div style="font-size: 32px; font-weight: 700;">1,245</div></div>
-                <div class="metric-card"><div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Активные диалоги</div><div style="font-size: 32px; font-weight: 700;">84</div></div>
-                <div class="metric-card"><div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Отправлено сообщений</div><div style="font-size: 32px; font-weight: 700;">342</div></div>
-                <div class="metric-card"><div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Конверсии</div><div style="font-size: 32px; font-weight: 700;">8.5%</div></div>
+                <div class="metric-card"><div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Всего Лидов <span>👥</span></div><div style="font-size: 32px; font-weight: 700;">1,245</div></div>
+                <div class="metric-card"><div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Активные диалоги <span>📈</span></div><div style="font-size: 32px; font-weight: 700;">84</div></div>
+                <div class="metric-card"><div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Отправлено сообщений <span>💬</span></div><div style="font-size: 32px; font-weight: 700;">342</div></div>
+                <div class="metric-card"><div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Конверсии <span>🎯</span></div><div style="font-size: 32px; font-weight: 700;">8.5%</div></div>
             </div>
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
                 <div class="panel">
                     <h3 style="margin-bottom: 20px;">Активность (Лиды)</h3>
                     <div class="chart-container">
-                        <div class="bar-group"><div class="bar" style="height: 35%;"></div><div style="margin-top: 10px; font-size: 12px;">Пн</div></div>
-                        <div class="bar-group"><div class="bar" style="height: 85%;"></div><div style="margin-top: 10px; font-size: 12px;">Вт</div></div>
-                        <div class="bar-group"><div class="bar" style="height: 60%;"></div><div style="margin-top: 10px; font-size: 12px;">Ср</div></div>
-                        <div class="bar-group"><div class="bar" style="height: 40%;"></div><div style="margin-top: 10px; font-size: 12px;">Чт</div></div>
-                        <div class="bar-group"><div class="bar" style="height: 90%;"></div><div style="margin-top: 10px; font-size: 12px;">Пт</div></div>
-                        <div class="bar-group"><div class="bar" style="height: 15%; background: var(--border-color);"></div><div style="margin-top: 10px; font-size: 12px;">Сб</div></div>
-                        <div class="bar-group"><div class="bar" style="height: 10%; background: var(--border-color);"></div><div style="margin-top: 10px; font-size: 12px;">Вс</div></div>
+                        <div class="bar-group"><div class="bar" style="height: 35%;"></div><div style="margin-top: 10px; font-size: 12px; color: var(--text-muted);">Пн</div></div>
+                        <div class="bar-group"><div class="bar" style="height: 85%;"></div><div style="margin-top: 10px; font-size: 12px; color: var(--text-muted);">Вт</div></div>
+                        <div class="bar-group"><div class="bar" style="height: 60%;"></div><div style="margin-top: 10px; font-size: 12px; color: var(--text-muted);">Ср</div></div>
+                        <div class="bar-group"><div class="bar" style="height: 40%;"></div><div style="margin-top: 10px; font-size: 12px; color: var(--text-muted);">Чт</div></div>
+                        <div class="bar-group"><div class="bar" style="height: 90%;"></div><div style="margin-top: 10px; font-size: 12px; color: var(--text-muted);">Пт</div></div>
+                        <div class="bar-group"><div class="bar" style="height: 15%; background: var(--border-color);"></div><div style="margin-top: 10px; font-size: 12px; color: var(--text-muted);">Сб</div></div>
+                        <div class="bar-group"><div class="bar" style="height: 10%; background: var(--border-color);"></div><div style="margin-top: 10px; font-size: 12px; color: var(--text-muted);">Вс</div></div>
                     </div>
                 </div>
                 <div class="panel">
                     <h3 style="margin-bottom: 20px;">Логи системы</h3>
-                    <div style="font-size: 13px; line-height: 2.5;">
-                        🤖 Найден новый лид (VK)<br>✉️ Автоответ отправлен Кириллу<br>✓ Лид передан в amoCRM<br>🤖 Обновлен промт поиска
+                    <div style="max-height: 250px; overflow-y: auto;">
+                        <div class="log-item"><div class="log-icon">🤖</div> Найден новый лид (VK)</div>
+                        <div class="log-item"><div class="log-icon">✉️</div> Автоответ отправлен Кириллу</div>
+                        <div class="log-item"><div class="log-icon" style="background: #dcfce7; color: #166534;">✓</div> Лид передан в amoCRM</div>
+                        <div class="log-item"><div class="log-icon">🤖</div> Найден новый лид (Telegram)</div>
+                        <div class="log-item"><div class="log-icon">⚙️</div> Обновлен промт поиска</div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div id="inbox" class="tab-content">
-            <h1 class="header-title">Inbox</h1><p class="header-subtitle">Визуальная воронка. Перетаскивайте карточки по этапам.</p>
+            <h1 class="header-title">Inbox</h1>
+            <p class="header-subtitle">Визуальная воронка обработки найденных лидов. Перетаскивайте карточки по этапам.</p>
             <div class="kanban-board">
+                
                 <div class="kanban-col" data-col="new">
                     <h3>Новый запрос <span class="col-count">2</span></h3>
-                    <div class="kanban-card" draggable="true"><div class="card-tags"><span class="c-tag" style="background: #fef3c7; color: #b45309;">🔥 Горячий</span></div><div class="card-title">Kirill Beginin</div><div class="card-text">Друзья, а кто у нас здесь занимается автоматизацией...</div></div>
-                    <div class="kanban-card" draggable="true"><div class="card-tags"><span class="c-tag" style="background: #dbeafe; color: #1e40af;">VKontakte</span></div><div class="card-title">Аренда СПБ</div><div class="card-text">Подскажите сервис для рассылок...</div></div>
+                    <div class="kanban-card" draggable="true">
+                        <div class="card-tags"><span class="c-tag" style="background: #fef3c7; color: #b45309;">🔥 Горячий</span><span class="c-tag" style="background: #e0f2fe; color: #0284c7;">Telegram</span></div>
+                        <div class="card-title">Kirill Beginin</div>
+                        <div class="card-text">Друзья, а кто у нас здесь занимается автоматизацией и ИИ? Есть клиенты на постоянной основе которых нужно пристроить...</div>
+                        <div class="card-footer"><span style="font-size: 12px; color: var(--text-muted);">2 мин назад</span><div class="team-avatars"><div class="t-avatar" style="background: #cbd5e1; color: #475569;">?</div></div></div>
+                    </div>
+                    <div class="kanban-card" draggable="true">
+                        <div class="card-tags"><span class="c-tag" style="background: #dbeafe; color: #1e40af;">VKontakte</span></div>
+                        <div class="card-title">Аренда СПБ (Сообщество)</div>
+                        <div class="card-text">Подскажите сервис для рассылок, чтобы подключить к нашей базе...</div>
+                        <div class="card-footer"><span style="font-size: 12px; color: var(--text-muted);">15 мин назад</span><div class="team-avatars"><div class="t-avatar" style="background: #cbd5e1; color: #475569;">?</div></div></div>
+                    </div>
                 </div>
+
                 <div class="kanban-col" data-col="progress">
                     <h3>Взят в работу <span class="col-count">1</span></h3>
-                    <div class="kanban-card" draggable="true" style="border-left: 3px solid var(--primary-blue);"><div class="card-title">Иван Иванов</div><div class="card-text">Сколько будет стоить внедрить ИИ-ассистента?</div><div style="font-size: 12px; color: var(--primary-blue); margin-top: 10px;">💬 Маша отвечает...</div></div>
+                    <div class="kanban-card" draggable="true" style="border-left: 3px solid var(--primary-blue);">
+                        <div class="card-tags"><span class="c-tag" style="background:#fce7f3; color:#db2777;">Instagram</span></div>
+                        <div class="card-title">Иван Иванов</div>
+                        <div class="card-text">Сколько будет стоить внедрить ИИ-ассистента как у вас в рилс? У нас отдел продаж 5 человек.</div>
+                        <div class="card-footer">
+                            <div style="font-size: 12px; color: var(--primary-blue); font-weight: 500; display: flex; align-items: center; gap: 6px;"><span>💬</span> Маша печатает...</div>
+                            <div class="team-avatars"><div class="t-avatar" style="background: #ec4899;" title="В работе у Маши">М</div></div>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="kanban-col" data-col="offer">
                     <h3>Отправлен оффер <span class="col-count">1</span></h3>
-                    <div class="kanban-card" draggable="true"><div class="card-title">Елена Маркетолог</div><div class="card-text">Презентация получена, обсуждаем смету.</div></div>
+                    <div class="kanban-card" draggable="true">
+                        <div class="card-tags"><span class="c-tag" style="background: #e0f2fe; color: #0284c7;">Telegram</span></div>
+                        <div class="card-title">Елена Маркетолог</div>
+                        <div class="card-text">Презентация получена, обсуждаем с руководителем смету на интеграцию n8n.</div>
+                        <div class="card-footer">
+                            <span style="font-size: 12px; color: var(--text-muted);">Вчера</span>
+                            <div class="team-avatars"><div class="t-avatar" style="background: var(--primary-blue);" title="Ваш лид">А</div></div>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="kanban-col" data-col="done">
                     <h3>Передан в CRM <span class="col-count">1</span></h3>
-                    <div class="kanban-card" draggable="true" style="opacity: 0.7;"><div class="card-title">ООО Вектор</div><div class="card-text" style="color: var(--success);">Сделка перенесена в amoCRM.</div></div>
+                    <div class="kanban-card" draggable="true" style="opacity: 0.7;">
+                        <div class="card-tags"><span class="c-tag" style="background: #dcfce7; color: #166534;">✓ Успех</span></div>
+                        <div class="card-title">ООО Вектор</div>
+                        <div class="card-text">Сделка перенесена в amoCRM. Этап: Договор.</div>
+                        <div class="card-footer"><span style="font-size: 12px; color: var(--success); font-weight: 500;">amoCRM ID: #4592</span></div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div id="channels" class="tab-content">
             <h1 class="header-title">Каналы связи</h1>
+            <p class="header-subtitle">Управляйте источниками, из которых система парсит лидов.</p>
             <div class="grid-cards">
-                <div class="card"><h3 style="margin-bottom: 10px;">✈️ Telegram</h3><p style="color: var(--success); font-size: 13px; margin-bottom: 20px;">● Активно</p><button class="btn btn-outline" style="width: 100%;">Настроить</button></div>
-                <div class="card"><h3 style="margin-bottom: 10px;">🔵 VKontakte</h3><p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">○ Не подключено</p><button class="btn btn-primary show-toast" data-msg="Открывается окно авторизации..." style="width: 100%;">Подключить</button></div>
-                <div class="card"><h3 style="margin-bottom: 10px;">📷 Instagram</h3><p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">○ Не подключено</p><button class="btn btn-primary show-toast" data-msg="Открывается окно авторизации..." style="width: 100%;">Подключить</button></div>
+                <div class="card"><h3 style="margin-bottom: 10px;">✈️ Telegram</h3><p style="color: var(--success); font-size: 13px; margin-bottom: 20px;">● Активно (12 чатов)</p><button class="btn btn-outline" style="width: 100%;">Настроить</button></div>
+                <div class="card"><h3 style="margin-bottom: 10px;">🔵 VKontakte</h3><p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">○ Не подключено</p><button class="btn btn-primary show-toast" data-msg="Открывается окно авторизации VK..." style="width: 100%;">Подключить</button></div>
+                <div class="card"><h3 style="margin-bottom: 10px;">📷 Instagram</h3><p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">○ Не подключено</p><button class="btn btn-primary show-toast" data-msg="Открывается окно авторизации Instagram..." style="width: 100%;">Подключить</button></div>
+                <div class="card"><h3 style="margin-bottom: 10px;">🧵 Threads</h3><p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">○ Не подключено</p><button class="btn btn-primary show-toast" data-msg="Настройка Threads..." style="width: 100%;">Подключить</button></div>
+                <div class="card"><h3 style="margin-bottom: 10px;">Ⓜ️ МАХ</h3><p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">○ Не подключено</p><button class="btn btn-primary show-toast" data-msg="Настройка MAX..." style="width: 100%;">Подключить</button></div>
+                <div class="card"><h3 style="margin-bottom: 10px;">🟠 Одноклассники</h3><p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">○ Не подключено</p><button class="btn btn-primary show-toast" data-msg="Настройка ОК..." style="width: 100%;">Подключить</button></div>
+                <div class="card"><h3 style="margin-bottom: 10px;">🎵 TikTok</h3><p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">○ Не подключено</p><button class="btn btn-primary show-toast" data-msg="Настройка TikTok..." style="width: 100%;">Подключить</button></div>
             </div>
         </div>
 
         <div id="crm" class="tab-content">
             <h1 class="header-title">Интеграция с CRM</h1>
+            <p class="header-subtitle">Настройте передачу найденных лидов напрямую в вашу систему продаж.</p>
+            <h3 style="margin-bottom: 15px;">Подключенные системы</h3>
             <div class="card" style="border: 2px solid var(--success); background: #f0fdf4; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; max-width: 600px;">
-                <div><h4 style="color: #166534;">amoCRM</h4><p style="font-size: 13px; color: #15803d; margin-top: 5px;">Синхронизация активна.</p></div>
-                <button class="btn btn-outline" style="background: white;">Настроить</button>
+                <div><h4 style="color: #166534;">amoCRM (Рабочий Workspace)</h4><p style="font-size: 13px; color: #15803d; margin-top: 5px;">Синхронизация активна. Воронка: "Первичный контакт".</p></div>
+                <button class="btn btn-outline show-toast" data-msg="Открытие настроек интеграции" style="background: white;">Настроить</button>
             </div>
-            <div class="grid-cards" style="max-width: 600px;">
-                <div class="card"><h4>Bitrix24</h4><button class="btn btn-outline" style="margin-top: 15px;">Подключить</button></div>
-                <div class="card"><h4>Custom Webhook</h4><button class="btn btn-outline" style="margin-top: 15px;">Подключить</button></div>
+            <h3 style="margin-bottom: 15px;">Доступные для подключения</h3>
+            <div class="grid-cards">
+                <div class="card"><h4>Bitrix24</h4><p style="font-size: 13px; color: var(--text-muted); margin: 10px 0 15px;">Передача полей через входящий вебхук.</p><button class="btn btn-outline show-toast" data-msg="Создание вебхука Bitrix24">Подключить</button></div>
+                <div class="card"><h4>RetailCRM</h4><p style="font-size: 13px; color: var(--text-muted); margin: 10px 0 15px;">Интеграция для e-commerce проектов.</p><button class="btn btn-outline show-toast" data-msg="Создание вебхука RetailCRM">Подключить</button></div>
+                <div class="card"><h4>Custom Webhook</h4><p style="font-size: 13px; color: var(--text-muted); margin: 10px 0 15px;">Для передачи в n8n или Make.</p><button class="btn btn-outline show-toast" data-msg="Генерация кастомного URL">Создать URL</button></div>
             </div>
         </div>
 
         <div id="billing" class="tab-content">
             <h1 class="header-title">Управление подпиской</h1>
+            <p class="header-subtitle">Выберите тарифный план, который лучше всего подходит для ваших задач лидогенерации.</p>
             <div class="billing-grid">
-                <div class="plan-card"><h3>Start</h3><div style="font-size: 32px; font-weight: 700; margin: 15px 0;">₽2,900</div><button class="btn btn-outline" style="width: 100%;">Перейти</button></div>
-                <div class="plan-card active-plan"><h3>Pro</h3><div style="font-size: 32px; font-weight: 700; margin: 15px 0;">₽5,900</div><button class="btn btn-primary" style="width: 100%;">Управлять</button></div>
-                <div class="plan-card"><h3>Agency</h3><div style="font-size: 32px; font-weight: 700; margin: 15px 0;">₽15,000</div><button class="btn btn-outline" style="width: 100%;">Связаться с нами</button></div>
+                <div class="plan-card">
+                    <h3>Start</h3><div style="font-size: 32px; font-weight: 700; margin: 15px 0;">₽2,900<span style="font-size: 14px; color: var(--text-muted); font-weight: 400;">/мес</span></div>
+                    <ul style="text-align: left; margin: 20px 0; font-size: 14px; color: var(--text-muted); line-height: 2; list-style: none;">
+                        <li>✓ До 500 лидов в месяц</li><li>✓ 2 канала поиска (TG, VK)</li><li>✓ Базовые автоответы</li><li>✕ Интеграция с CRM</li>
+                    </ul>
+                    <button class="btn btn-outline show-toast" data-msg="Переход на оплату тарифа Start" style="width: 100%;">Перейти на Start</button>
+                </div>
+                <div class="plan-card active-plan">
+                    <div class="badge">Текущий тариф</div>
+                    <h3>Pro</h3><div style="font-size: 32px; font-weight: 700; margin: 15px 0;">₽5,900<span style="font-size: 14px; color: var(--text-muted); font-weight: 400;">/мес</span></div>
+                    <ul style="text-align: left; margin: 20px 0; font-size: 14px; color: var(--text-muted); line-height: 2; list-style: none;">
+                        <li>✓ До 3000 лидов в месяц</li><li>✓ Все каналы поиска</li><li>✓ AI-Автоответы (Lidochka)</li><li>✓ Интеграция с amoCRM/Bitrix</li>
+                    </ul>
+                    <button class="btn btn-primary show-toast" data-msg="Открыто меню управления подпиской" style="width: 100%;">Управлять тарифом</button>
+                </div>
+                <div class="plan-card">
+                    <h3>Agency</h3><div style="font-size: 32px; font-weight: 700; margin: 15px 0;">₽15,000<span style="font-size: 14px; color: var(--text-muted); font-weight: 400;">/мес</span></div>
+                    <ul style="text-align: left; margin: 20px 0; font-size: 14px; color: var(--text-muted); line-height: 2; list-style: none;">
+                        <li>✓ Безлимитные лиды</li><li>✓ Кастомные парсеры</li><li>✓ White-label решение</li><li>✓ Выделенный менеджер</li>
+                    </ul>
+                    <button class="btn btn-outline show-toast" data-msg="Запрос отправлен менеджеру" style="width: 100%;">Связаться с нами</button>
+                </div>
             </div>
         </div>
 
         <div id="settings" class="tab-content">
             <h1 class="header-title">Настройки профиля</h1>
+            <p class="header-subtitle">Управление доступом и базовой информацией о рабочем пространстве.</p>
             <div class="panel" style="max-width: 600px;">
                 <div class="form-group"><label>Имя пользователя</label><input type="text" value="Арина"></div>
                 <div class="form-group"><label>Название Workspace</label><input type="text" value="Oboyma Lab"></div>
-                <button class="btn btn-primary show-toast" data-msg="Настройки сохранены">Сохранить</button>
+                <div class="form-group"><label>Email администратора</label><input type="text" value="admin@oboyma.lab"></div>
+                <button class="btn btn-primary show-toast" data-msg="Настройки профиля успешно сохранены!">Сохранить изменения</button>
             </div>
         </div>
 
@@ -325,7 +496,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Табы
+            
+            // 1. Навигация бокового меню
             const navItems = document.querySelectorAll('.nav-item');
             const tabContents = document.querySelectorAll('.tab-content');
             navItems.forEach(item => {
@@ -337,7 +509,16 @@
                 });
             });
 
-            // Тогглы в Discovery
+            // 2. Вложенные табы в Базе лидов
+            const pTabs = document.querySelectorAll('.p-tab');
+            pTabs.forEach(item => {
+                item.addEventListener('click', () => {
+                    pTabs.forEach(tab => tab.classList.remove('active'));
+                    item.classList.add('active');
+                });
+            });
+
+            // 3. Переключатель База Лидов (Эксперт / Авто)
             const modeBtns = document.querySelectorAll('#funnel-mode .toggle-btn');
             modeBtns.forEach(btn => {
                 btn.addEventListener('click', (e) => {
@@ -348,7 +529,16 @@
                 });
             });
 
-            // Toasts (Уведомления)
+            // 4. Переключатель Аналитики
+            const analyticsBtns = document.querySelectorAll('#analytics-toggle .toggle-btn');
+            analyticsBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    analyticsBtns.forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                });
+            });
+
+            // 5. Система уведомлений (Toasts)
             const toastContainer = document.getElementById('toast-container');
             function showToast(message) {
                 const toast = document.createElement('div');
@@ -358,39 +548,67 @@
                 setTimeout(() => toast.remove(), 3000);
             }
             document.querySelectorAll('.show-toast').forEach(btn => {
-                btn.addEventListener('click', () => showToast(btn.getAttribute('data-msg')));
+                btn.addEventListener('click', () => {
+                    showToast(btn.getAttribute('data-msg') || 'Выполнено');
+                });
             });
 
-            // Cmd+K
+            // 6. Глобальный поиск (Cmd+K)
             const cmdModal = document.getElementById('cmd-modal-overlay');
             const cmdInput = document.querySelector('.cmd-input');
             document.addEventListener('keydown', (e) => {
-                if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); cmdModal.classList.add('active'); cmdInput.focus(); }
-                if (e.key === 'Escape') cmdModal.classList.remove('active');
+                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                    e.preventDefault();
+                    cmdModal.classList.add('active');
+                    cmdInput.focus();
+                }
+                if (e.key === 'Escape' && cmdModal.classList.contains('active')) {
+                    cmdModal.classList.remove('active');
+                }
             });
-            cmdModal.addEventListener('click', (e) => { if (e.target === cmdModal) cmdModal.classList.remove('active'); });
+            cmdModal.addEventListener('click', (e) => {
+                if (e.target === cmdModal) cmdModal.classList.remove('active');
+            });
 
-            // Drag&Drop Канбан
+            // 7. Drag & Drop для Канбан доски (Inbox)
             const kanbanCards = document.querySelectorAll('.kanban-card');
             const kanbanCols = document.querySelectorAll('.kanban-col');
             let draggedCard = null;
 
             kanbanCards.forEach(card => {
-                card.addEventListener('dragstart', function() { draggedCard = this; setTimeout(() => this.classList.add('dragging'), 0); });
-                card.addEventListener('dragend', function() { this.classList.remove('dragging'); draggedCard = null; updateColCounts(); });
+                card.addEventListener('dragstart', function() {
+                    draggedCard = this;
+                    setTimeout(() => this.classList.add('dragging'), 0);
+                });
+                card.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                    draggedCard = null;
+                    updateColCounts();
+                });
             });
 
             kanbanCols.forEach(col => {
-                col.addEventListener('dragover', function(e) { e.preventDefault(); this.classList.add('drag-over'); });
-                col.addEventListener('dragleave', function() { this.classList.remove('drag-over'); });
+                col.addEventListener('dragover', function(e) {
+                    e.preventDefault(); // Необходимо для разрешения drop
+                    this.classList.add('drag-over');
+                });
+                col.addEventListener('dragleave', function() {
+                    this.classList.remove('drag-over');
+                });
                 col.addEventListener('drop', function() {
                     this.classList.remove('drag-over');
-                    if (draggedCard) { this.appendChild(draggedCard); showToast('Статус лида обновлен'); }
+                    if (draggedCard) {
+                        this.appendChild(draggedCard);
+                        showToast('Статус лида успешно обновлен в воронке');
+                    }
                 });
             });
 
             function updateColCounts() {
-                kanbanCols.forEach(col => { col.querySelector('.col-count').textContent = col.querySelectorAll('.kanban-card').length; });
+                kanbanCols.forEach(col => {
+                    const count = col.querySelectorAll('.kanban-card').length;
+                    col.querySelector('.col-count').textContent = count;
+                });
             }
         });
     </script>
